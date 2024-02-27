@@ -1,0 +1,10 @@
+# Maintanence Documents
+- [App upgrade documents for flux, keycloak, krakend, argo, nginx ingress controller and  Oauth proxy](apps-upgrade.md)
+- [Client credential flow or M2M flow](client-credential-flow.md)
+- [AWS EKS upgrade steps](eks-upgrade.md)
+- [Keycloak management for admin email update and login page background image update](keycloak-management.md)
+- [Krakend rules explanation and how to update](krakend-rules-update.md)
+- [Secret rotation for keycloak admin user and client, Github token and AWS access key and secrets](secrets-rotation.md)
+- [How to create client in AAF SSO for federated user and role assignment in Keycloak](user-management.md)
+- [Apps vulnerability scanning and resolution](vulnerability-scan-resolution.md)
+- [RDS backup and restore](rds-data-backup-restore.md)  

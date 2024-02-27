@@ -1,0 +1,296 @@
+# Metadata system
+
+See [Metadata API requirements](../../requirements.md#metadata-api) and [Metadata entry tool requirements](../../requirements.md#metadata-entry-tool-met)
+
+## Summary
+
+- Authentication [`oauth2proxy`](https://oauth2-proxy.github.io/oauth2-proxy/) (See [auth architecture](auth.md))
+- Metadata API back-end: [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi)
+  - [`pgstac`](https://github.com/stac-utils/pgstac) back-end - with AWS RDS PostgreSQL instance
+  - Currently, all STAC Collections and Items are public
+  - In the future, Authorization will be handled inside [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi)
+  - Note: there are two deployments, one is called `internal-stac-fastapi`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
+- Metadata API front-end: [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser)
+- Metadata entry tool: [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf)
+  - Temporary tool to create metadata records to be ingested into external metadata management systems. See [requirements](../../requirements.md#metadata-entry-tool-met) for more details.
+  - Not integrated into any other components
+- Metadata catalog point-of-truth: [`rimrep-catalog`](https://github.com/aodn/rimrep-catalog)
+  - Version controlled - GitHub repository
+  - Code to generate STAC Collections and STAC Items from multiple metadata sources
+    - Externally harvested metadata
+    - Data-driven metadata (eg geospatial/temporal/dimension extents)
+    - Manually curated metadata
+  - Currently, manually published to [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi)
+  - In the future, automated publishing to [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi)
+
+## Architecture
+
+Current:
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'edgeLabelBackground': '#ffffff',
+      'tertiaryTextColor': '#0f00aa',
+      'clusterBkg': '#fafaff',
+      'clusterBorder': '#0f00aa'
+    }
+  }
+}%%
+
+flowchart TB
+  classDef red fill:#ffcccc,stroke:#ff0000;
+
+  subgraph data_providers ["Data providers"]
+    external((Data Providers <br> with metadata records))
+    metadata_providers((Data Providers <br> without metadata records))
+  end
+
+  subgraph github ["GitHub"]
+    catalog(rimrep-catalog)
+  end
+
+   subgraph aws_managed ["AWS Managed"]
+    subgraph aws_rds["AWS RDS Postgres"]
+        aws_rds_metcalf[(metcalf DB)]
+        aws_rds_stac[(stac DB)]
+        aws_rds_metcalf ~~~ aws_rds_stac
+    end
+    aws_S3[(AWS S3)]
+  end
+
+  subgraph "k8s"
+
+    subgraph stac_fastapi_group[" "]
+      stac_fastapi(stac-fastapi)
+      internal_stac_fastapi(internal-stac-fastapi)
+    end
+
+    metadata_frontend(stac-browser)
+    oauth2_proxy(Oauth2 Proxy):::red
+
+    metcalf(metcalf)
+  end
+
+  data_providers ~~~ aws_managed
+
+  external_users(External Users)
+
+  internal_stac_fastapi -->  |Write STAC JSON to|aws_rds_stac
+  metcalf --> |Store metadata records in| aws_rds_metcalf
+  aws_rds_stac --> |Read STAC JSON|stac_fastapi
+
+  external -- Manually harvested to --> catalog
+  aws_S3 -- Manually generate data-driven metadata<br>&<br>copied to --> catalog
+  metcalf --Manualy copied to--> catalog
+
+  catalog --Manually generate STAC JSON <br> & <br> publish to--> internal_stac_fastapi
+ 
+  stac_fastapi -->|STAC API| oauth2_proxy & metadata_frontend
+
+  metadata_frontend -->|Web UI| oauth2_proxy
+  oauth2_proxy --> external_users
+
+  metadata_providers -->|Create records in| metcalf
+```
+
+Future:
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'edgeLabelBackground': '#ffffff',
+      'tertiaryTextColor': '#0f00aa',
+      'clusterBkg': '#fafaff',
+      'clusterBorder': '#0f00aa'
+    }
+  }
+}%%
+
+flowchart TB
+  classDef red fill:#ffcccc,stroke:#ff0000;
+
+  subgraph group_data_providers ["Data providers"]
+    external((Data Providers <br> with metadata records))
+    metadata_providers((Data Providers <br> without metadata records))
+  end
+
+  subgraph group_github ["GitHub"]
+      catalog(rimrep-catalog)
+  end
+
+  subgraph group_k8s ["k8s"]
+    subgraph metadata_argo_workflow ["Metadata Workflows (detailed)"]
+        harvest_external_metadata[[Harvest external metadata]]
+        harvest_metcalf_metadata[[Harvest metcalf metadata]]
+        populate_datapackagejson[[Populate datapackage.json with harvested metadata]]
+        generate_json[[Generate STAC JSON]]
+        validate_json[[Validate STAC JSON]]
+        publish_json[[Publish STAC JSON]]
+        harvest_external_metadata -. "metadata.json (or)" .-> populate_datapackagejson
+        harvest_metcalf_metadata -. "metadata.json (either)" .-> populate_datapackagejson
+        generate_json --> validate_json
+        validate_json --> publish_json
+        harvest_metcalf_metadata ~~~ harvest_external_metadata
+    end
+      KeyCloak(KeyCloak):::red
+      KrakenD(KrakenD):::red
+
+    subgraph data_argo_workflow ["Data Workflows"]
+    end
+
+    subgraph stac_fastapi_group["Protected Resources"]
+      stac_fastapi(stac-fastapi)
+    end
+
+    metcalf(metcalf)
+  end
+
+  subgraph group_aws_managed ["AWS Managed"]
+    subgraph aws_managed ["AWS RDS Postgres"]
+        aws_rds_metcalf[(metcalf DB)]
+        aws_rds_stac[(stac DB)]
+        aws_rds_metcalf ~~~ aws_rds_stac
+    end
+    aws_sm(AWS Secret Manager)
+    aws_S3[(AWS S3)]
+    aws_S3 ~~~ aws_rds_metcalf
+  end
+
+  group_data_providers ~~~ group_github
+
+  external_users(External Users)
+
+
+  metcalf <--> |Metcalf records|aws_rds_metcalf
+  aws_rds_stac <--> |Read, Write STAC JSON|stac_fastapi
+
+  external -. Harvested by .-> harvest_external_metadata
+
+  catalog -. Human curated jsonnet files .-> generate_json
+  catalog -. Human curated initial datapackage.json .-> data_argo_workflow
+  data_argo_workflow -. populated datapackage.json with<br>data-driven metadata .-> populate_datapackagejson
+  populate_datapackagejson -. complete datapackage.json .-> generate_json
+  populate_datapackagejson -. complete datapackage.json .-> aws_S3
+  aws_sm -.get client secret.-> publish_json
+  publish_json -. Authenticate - passing credentials .-> KeyCloak
+  publish_json -. Authorize - passing access token .-> KrakenD
+  KeyCloak <-. Validate Token .->KrakenD
+  KrakenD <-. Read, Write data - /GET - /POST .-> stac_fastapi
+  aws_rds_metcalf -. Metcalf records .-> harvest_metcalf_metadata
+
+
+
+
+  external_users -. Authenticate - passing clientID/Secret .-> KeyCloak
+  external_users -. Authorize - passing access token .-> KrakenD
+
+  metadata_providers -->|Create records in| metcalf
+```
+
+### Metadata flow 
+
+_Note: Dashed line = not implemented yet_
+
+```mermaid
+%%{
+  init: {
+    'theme': 'base',
+    'themeVariables': {
+      'edgeLabelBackground': '#ffffff',
+      'tertiaryTextColor': '#0f00aa',
+      'clusterBkg': '#fafaff',
+      'clusterBorder': '#0f00aa'
+    }
+  }
+}%%
+
+flowchart TB
+  classDef red fill:#ffcccc,stroke:#ff0000;
+
+  metadata_providers((Data Providers))
+
+  subgraph group_external_metadata["External Metadata"]
+    rks(Reef Knowledge System)
+    external_metadata(Other external metadata)
+  end
+
+  subgraph group_external_data["External Data"]
+    external_data_api[(API)]
+    external_data_storage[(Storage)]
+  end
+
+  subgraph pipeline["Argo Workflows"]
+    direction TB
+    metadata_workflow(Metadata workflows)
+    data_workflow(Data workflows)
+    data_workflow -. populated datapackage.json with<br>data-driven metadata .-> metadata_workflow
+
+  end
+
+  metcalf(metcalf)
+
+  rimrep_admin((RIMReP Admin))
+
+  subgraph github["GitHub"]
+    catalog(rimrep-catalog)
+  end
+  
+  stac_db[(STAC DB)]
+  stac_fastapi_internal(stac-fastapi-internal)
+
+
+
+  metadata_providers -->|Manually create records using| metcalf
+  metcalf  -. Ingested to .-> rks
+  group_external_metadata -. Harvested external metadata .-> metadata_workflow
+
+
+  group_external_data -->|Ingest| data_workflow
+
+  rimrep_admin -->|Curate initial datapackage.json<br>&  Jsonnet files| catalog
+  catalog -.Jsonnet files.-> metadata_workflow
+  catalog -.Initial datapackage.json.-> data_workflow
+  metadata_workflow -. Published to .->stac_fastapi_internal
+  stac_fastapi_internal --> |Writes to| stac_db
+```
+
+### Metadata API back-end
+
+See [Metadata API requirements](../../requirements.md#metadata-api)
+
+We are using [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi) (a fork of [`stac-fastapi`](https://github.com/stac-utils/stac-fastapi)) to publish STAC API. It is using the [`pgstac`](https://github.com/stac-utils/pgstac) back-end with an AWS RDS PostgreSQL instance.
+
+Note: there are two deployments, one is called `internal-stac-fastapi`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
+
+### Metadata API front-end
+
+We are using [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser) (a fork of [`stac-browser`](https://github.com/radiantearth/stac-browser)), which provides a simple Web UI to browse STAC API.
+
+### Metadata entry tool
+
+See [Metadata entry tool requirements](../../requirements.md#metadata-entry-tool-met)
+
+We are using [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf) to provide a Web UI for data providers to use to create metadata records.
+
+This component is temporary, it is only used by data providers that don't have metadata records in an external metadata management system. The goal is to ingest all created metadata records into an external metadata management system by the end of this phase of the project.
+
+We will temporarily use records created by metcalf until they have been ingested into an external metadata management system.
+
+### Metadata catalog point-of-truth
+
+GitHub repository - https://github.com/aodn/rimrep-catalog - using [`jsonnet`](https://jsonnet.org/) JSON template language.
+
+In the future, we will automate the publishing of STAC Collections and Items to `stac-fastapi`.
+
+## Auth
+
+See [authentication](auth.md) component documentation.
+
+Currently, the `stac-fastapi` and `stac-browser` requires authentication for all STAC collections/items. In the future, open access by default, and require authorization for limited access STAC collections/items.
+
+Authorization will be handled inside `stac-fastapi`.
