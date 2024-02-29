@@ -37,7 +37,7 @@ The DMS catalogue is available at http://stac.reefdata.io/browser. If your organ
 - <a href="https://github.com/aodn/rimrep-argo-workflow" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-argo-workflow</a> Argo Workflows for data pipeline and metadata pipeline
 - <a href="https://github.com/aodn/gbr-dms-e2e-tests" style="color:red;text-decoration: underline;text-decoration-style: dotted;">gbr-dms-e2e-tests</a> End-to-end tests for the whole system
 - <a href="https://github.com/aodn/rimrep-examples-private" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-examples-private</a> A private version of `rimrep-examples`
-- <a href="https://github.com/aodn/rimrep-Rpackage" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-Rpackage</a> an R package with useful functions to work with DMS data and metadata services
+- <a href="https://github.com/aodn/rimrep-Rpackage" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-Rpackage</a> an R package with useful functions to work with DMS data and metadata services (WiP)
 
 
 ### Public repositories
