@@ -22,7 +22,6 @@ The DMS catalogue is available at http://stac.reefdata.io/browser. If your organ
 
 ## Components
 
-Links in <span style="color:red">red</span> are structural private repositories, <span style="color:#239CF3">blue</span> ones are public
 
 ### Private structural repositories
 
