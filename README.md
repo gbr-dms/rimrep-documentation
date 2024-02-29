@@ -28,7 +28,7 @@ The DMS catalogue is available at http://stac.reefdata.io/browser. If your organ
 - <a href="https://github.com/aodn/rimrep-pygeoapi" style="color: red; text-decoration: underline;text-decoration-style: dotted;">rimrep-pygeoapi</a> Data API
 - <a href="https://github.com/aodn/rimrep-stac-fastapi" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-stac-fastapi</a> Metadata API
 - <a href="https://github.com/aodn/rimrep-stac-browser" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-stac-browser</a> Metadata API web client 
-- <a href="https://github.com/aodn/rimrep-metcalf" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-metcalf)</a> Metadata Entry Tool (MET)
+- <a href="https://github.com/aodn/rimrep-metcalf" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-metcalf</a> Metadata Entry Tool (MET)
 - <a href="https://github.com/aodn/rimrep-dashboard" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-dashboard</a> Dashboard Web Client
 - <a href="https://github.com/aodn/rimrep-catalog" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-catalog</a> Catalog - single source of truth
 - <a href="https://github.com/aodn/rimrep-data-pipeline" style="color:red;text-decoration: underline;text-decoration-style: dotted;">rimrep-data-pipeline</a> Data Pipeline
