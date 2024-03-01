@@ -4,7 +4,6 @@ WIP
 
 ## Summary
 
-Configured in [`rimrep-flux`](https://github.com/aodn/rimrep-flux)
+Configured in [`rimrep-terraform`](https://github.com/aodn/rimrep-terraform)
 
-- Prometheus stack: Grafana, Loki, Prometheus, AlertManager
-- Weave GitOps (front end for Flux)
+- Newrelic
