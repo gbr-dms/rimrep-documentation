@@ -122,88 +122,10 @@ In the below example, URL https://pygeoapi.development.reefdata.io/collection/no
         }
       ]
     }
+
 ```
-### S3 public bucket urls
-S3 data public bucket will come under this category. The difference between the apps rule and bucket rule is the presence of `extra_config.plugin/req-resp-modifier` which is responsible of loading the aws plugin to create AWS signature fo S3 bucket calls.
-```json
-{
-      "endpoint": "/rimrep-data-public-development",
-      "timeout": "1000s", # Larger timeout for loading dataset files
-      "output_encoding": "no-op",
-      "input_query_strings": [
-        "*"
-      ],
-      "backend": [
-        {
-          "url_pattern": "/",
-          "encoding": "no-op",
-          "host": [
-            "https://rimrep-data-public-development.s3.ap-southeast-2.amazonaws.com"
-          ]
-        }
-      ],
-      "extra_config": {
-        "plugin/req-resp-modifier": {
-          "name": [
-            "aws-signature-plugin" # AWS pluging name
-          ],
-          "aws-signature-plugin-param": {
-            "accessKey": "{{ env "AWS_ACCESS_KEY_ID" }}", # AWS access key to be passed to plugin for creating the signature
-            "secretKey": "{{ env "AWS_SECRET_ACCESS_KEY" }}", # AWS access secret to be passed to plugin for creating the signature
-            "bucketName": "rimrep-data-public-development" # Bucket name to be passed to plugin for creating the signature
-          }
-        }
-      }
-}
-```
-### S3 private bucket urls
-S3 data limited access bucket will come under this category. It is more like the above rule except the present of `extra_config.auth/validator` to validate the `Authorization` header.
-```json
-{
-      "endpoint": "/rimrep-data-limited-access-development",
-      "timeout": "1000s",
-      "output_encoding": "no-op",
-      "input_headers": [
-        "*"
-      ],
-      "input_query_strings": [
-        "*"
-      ],
-      "extra_config": {
-        "auth/validator": { # For validating Authorization header in JWT token
-          "alg": "RS256",
-          "jwk_url": "https://keycloak.development.reefdata.io/realms/rimrep-development/protocol/openid-connect/certs",
-          "disable_jwk_security": true,
-          "issuer": "https://keycloak.development.reefdata.io/realms/rimrep-development",
-          "cache": true,
-          "roles_key": "realm_role",
-          "roles": [
-            "reef-admin"
-          ],
-          "operation_debug": true
-        },
-        "plugin/req-resp-modifier": {
-          "name": [
-            "aws-signature-plugin"
-          ],
-          "aws-signature-plugin-param": {
-            "accessKey": "{{ env "AWS_ACCESS_KEY_ID" }}",
-            "secretKey": "{{ env "AWS_SECRET_ACCESS_KEY" }}",
-            "bucketName": "rimrep-data-limited-access-development"
-          }
-        }
-      },
-      "backend": [
-        {
-          "url_pattern": "/",
-          "encoding": "no-op",
-          "host": [
-            "https://rimrep-data-limited-access-development.s3.ap-southeast-2.amazonaws.com"
-          ]
-        }
-      ]
-    }
-```
+
+
 ## How to add Krakend rules
 Most of the URLs for apps and buckets are already covered with or without placeholder rules so no specific rules needed if a new dataset is added unless if the URL pattern is different from the configured rules.
 In such cases, add the new url pattern to endpoints by copying any of the available rules. Add `extra_config.auth/validator` to the rules if it needs to be protected and add `extra_config.plugin/req-resp-modifier` if it is for bucket URL.
