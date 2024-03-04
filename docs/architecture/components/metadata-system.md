@@ -84,10 +84,10 @@ flowchart TB
   aws_rds_stac --> |Read STAC JSON|stac_fastapi
 
   external -- Manually harvested to --> catalog
-  aws_S3 -- Manually generate data-driven metadata<br>&<br>copied to --> catalog
+  aws_S3 -- "`Manually generate data-driven metadata<br>&<br>copied to`" --> catalog
   metcalf --Manualy copied to--> catalog
 
-  catalog --Manually generate STAC JSON <br> & <br> publish to--> internal_stac_fastapi
+  catalog --"`Manually generate STAC JSON <br> & <br> publish to`"--> internal_stac_fastapi
  
   stac_fastapi -->|STAC API| oauth2_proxy & metadata_frontend
 
