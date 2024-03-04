@@ -84,10 +84,10 @@ flowchart TB
   aws_rds_stac --> |Read STAC JSON|stac_fastapi
 
   external -- Manually harvested to --> catalog
-  aws_S3 -- Manually generate data-driven metadata<br>&<br>copied to --> catalog
+  aws_S3 -- "`Manually generate data-driven metadata<br>&<br>copied to`" --> catalog
   metcalf --Manualy copied to--> catalog
 
-  catalog --Manually generate STAC JSON <br> & <br> publish to--> internal_stac_fastapi
+  catalog --"`Manually generate STAC JSON <br> & <br> publish to`"--> internal_stac_fastapi
  
   stac_fastapi -->|STAC API| oauth2_proxy & metadata_frontend
 
@@ -128,7 +128,7 @@ flowchart TB
     subgraph metadata_argo_workflow ["Metadata Workflows (detailed)"]
         harvest_external_metadata[[Harvest external metadata]]
         harvest_metcalf_metadata[[Harvest metcalf metadata]]
-        populate_datapackagejson[[Populate datapackage.json with harvested metadata]]
+        populate_datapackagejson[["Populate datapackage.json with harvested metadata"]]
         generate_json[[Generate STAC JSON]]
         validate_json[[Validate STAC JSON]]
         publish_json[[Publish STAC JSON]]
@@ -173,13 +173,13 @@ flowchart TB
   external -. Harvested by .-> harvest_external_metadata
 
   catalog -. Human curated jsonnet files .-> generate_json
-  catalog -. Human curated initial datapackage.json .-> data_argo_workflow
-  data_argo_workflow -. populated datapackage.json with<br>data-driven metadata .-> populate_datapackagejson
-  populate_datapackagejson -. complete datapackage.json .-> generate_json
-  populate_datapackagejson -. complete datapackage.json .-> aws_S3
+  catalog -. "Human curated initial datapackage.json" .-> data_argo_workflow
+  data_argo_workflow -. "`populated datapackage.json with<br>data-driven metadata`" .-> populate_datapackagejson
+  populate_datapackagejson -. "complete datapackage.json" .-> generate_json
+  populate_datapackagejson -. "complete datapackage.json" .-> aws_S3
   aws_sm -.get client secret.-> publish_json
-  publish_json -. Authenticate - passing credentials .-> KeyCloak
-  publish_json -. Authorize - passing access token .-> KrakenD
+  publish_json -. "Authenticate - passing credentials" .-> KeyCloak
+  publish_json -. "Authorize - passing access token" .-> KrakenD
   KeyCloak <-. Validate Token .->KrakenD
   KrakenD <-. Read, Write data - /GET - /POST .-> stac_fastapi
   aws_rds_metcalf -. Metcalf records .-> harvest_metcalf_metadata
@@ -229,7 +229,7 @@ flowchart TB
     direction TB
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
-    data_workflow -. populated datapackage.json with<br>data-driven metadata .-> metadata_workflow
+    data_workflow -. "`populated datapackage.json with<br>data-driven metadata`" .-> metadata_workflow
 
   end
 
@@ -253,9 +253,9 @@ flowchart TB
 
   group_external_data -->|Ingest| data_workflow
 
-  rimrep_admin -->|Curate initial datapackage.json<br>&  Jsonnet files| catalog
+  rimrep_admin -->|"`Curate initial datapackage.json<br>&  Jsonnet files`"| catalog
   catalog -.Jsonnet files.-> metadata_workflow
-  catalog -.Initial datapackage.json.-> data_workflow
+  catalog -."Initial datapackage.json".-> data_workflow
   metadata_workflow -. Published to .->stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
 ```
