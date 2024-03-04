@@ -37,10 +37,6 @@ Note: Here is the AAF documentation link for new service creation, https://suppo
 - Click "Add Provider" and select the type of IDP you want to configure (OpenID Connect).
 
 
-![image](https://github.com/aodn/rimrep-dms/assets/126625288/1c7f0b30-2166-4e14-8638-b9a5a7a0c79b)
-
-![image](https://github.com/aodn/rimrep-dms/assets/126625288/7cac31ce-23fb-4a2c-a1b6-69ec557e7daa)
-
 Note: Here the client ID and Client secret need to be created in the AAF Portal.
 
 ### Role Assignment in Keycloak
