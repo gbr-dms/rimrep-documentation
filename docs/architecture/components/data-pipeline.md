@@ -73,11 +73,11 @@ flowchart TB
 
   data --->|Ingest| data_workflow
   metadata -. Harvest .-> metadata_workflow
-  rimrep_admin -. 'Curate initial datapackage.json<br>& Jsonnet files' .-> catalog
-  catalog -. Initial datapackage.json .-> data_workflow
-  data_workflow -. 'populated datapackage.json with<br>data-driven metadata' .-> metadata_workflow
-  metadata_workflow -. 'complete datapackage.json' .-> public_data_storage
-  metadata_workflow -. 'complete datapackage.json' .-> private_data_storage
+  rimrep_admin -. "Curate initial datapackage.json<br>& Jsonnet files" .-> catalog
+  catalog -. "Initial datapackage.json" .-> data_workflow
+  data_workflow -. "populated datapackage.json with<br>data-driven metadata" .-> metadata_workflow
+  metadata_workflow -. "complete datapackage.json" .-> public_data_storage
+  metadata_workflow -. "complete datapackage.json" .-> private_data_storage
   metadata_workflow -. Generate STAC Collection&Item .-> internal_stac_fastapi
   internal_stac_fastapi -. Writes STAC to .-> aws_rds
   aws_rds -. Reads STAC from .-> stac_fastapi
