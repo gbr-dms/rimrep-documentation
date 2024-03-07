@@ -26,7 +26,7 @@ to log in. If not, you can write to info-dms at utas dot edu dot au and we will 
 
 ## Public Repositories
 
-- [rimrep-examples](https://github.com/aodn/rimrep-examples) RIMReP examples and documentation
+- [rimrep-examples](https://github.com/aodn/rimrep-examples) GBR DMS examples and documentation
 - [rimrep-training](https://github.com/aodn/rimrep-training) Specific examples to be used for training activities
 - [rimrep-documentation](https://github.com/aodn/rimrep-documentation) This repository
 
@@ -57,14 +57,16 @@ to log in. If not, you can write to info-dms at utas dot edu dot au and we will 
 
 ## What is GBR DMS?
 
-RIMReP DMS is an Open Geospatial Consortium (OGC) API service and analysis-ready, cloud-optimised (ARCO) repository for data and metadata 
-relevant to the management of the Great Barrier Reef. RIMReP DMS offers services to allow the discovery of the data and the interaction 
+GBR DMS is an Open Geospatial Consortium (OGC) API service and analysis-ready, cloud-optimised (ARCO) repository for 
+data and metadata 
+relevant to the management of the Great Barrier Reef. GBR DMS offers services to allow the discovery of the data and 
+the interaction 
 with external systems.
 
 In simple terms, GBR DMS is a data system that aims to be a "one-stop-shop" for all data related to the Great Barrier 
-Reef World Heritage Area, which can be easily accessed by the Great Barrier Reef Marine Park Authority (GBRMPA) to support evidence-based 
-management strategies. All datasets have a standard format regardless of their origin, which not only facilitates 
-access to data, but also their analysis as it removes the need to understand and parse different data formats.
+Reef World Heritage Area, which can be easily accessed by the Great Barrier Reef Marine Park Authority (GBRMPA) to 
+support  evidence-based management strategies. All datasets have a standard format regardless of their origin, which 
+not only facilitates access to data, but also their analysis as it removes the need to understand and parse different data formats.
 
 Datasets that have an open licence are publicly available in the GBR DMS, while datasets that have a restricted 
 licence are only available to users that have been granted access to them by the data provider.
@@ -77,13 +79,14 @@ To browse datasets available in the GBR DMS you can use the SpatioTemporal Asset
 common language to describe a range of geospatial information, so that data can be indexed and easily discovered. 
 Our STAC catalogue is available at [https://stac.reefdata.io/browser/](https://stac.reefdata.io/browser/).
 
-Alternatively, we provide a link to the original source of the dataset to give users the option of accessing the data directly from the data provider.
+Alternatively, we provide a link to the original source of the dataset to give users the option of accessing the 
+data directly from the data provider.
 
 ### Discovering datasets via STAC
 
 The [STAC catalogue](https://stac.reefdata.io/browser/) is a web-based interface that allows users to search for 
-datasets using a range of filters, such as dataset name, data provider, and date range. To search for datasets, you 
-have the option of clicking on the **Search** button on the top right corner of the page, or you can use the search 
+datasets using a range of filters, such as dataset name, data provider, keywords and date range. To search for 
+datasets, you have the option of clicking on the **Search** button on the top right corner of the page, or you can use the search 
 bar on the top left corner of the page. These two options are highlighted in red boxes in the image below.
 
 ![Screenshot of STAC catalogue home page showing the two search options mentioned in the previous paragraph](images/stac_home.png)
@@ -111,12 +114,12 @@ The item level page includes the following information:
 -   A map showing the spatial coverage of the dataset.
 -   A description of the dataset.
 -   A link to the collection level page.
--   A link to the dataset available in a RIMReP DMS S3 bucket under the **Assets** section.
+-   A link to the dataset available in a GBR DMS S3 bucket under the **Assets** section.
 -   Under the **Additional Resources** section, there will be a link to the data API under and to the original source of the dataset.
 -   Metadata about the dataset, including the projection system, preferred citation and the names of the columns in the dataset.
 
 The API and S3 links are highlighted in red boxes in the image above because these are the two methods shown in this repository to access 
-datasets available in the RIMReP DMS.
+datasets available in the GBR DMS.
 
 [Table of contents](#table-of-contents)
 
@@ -150,7 +153,9 @@ ds <- open_dataset(s3_conn)
 
 Remember that you can change the value of `dataset_s3` to the S3 URL address for the dataset you want to access.
 
-Note that if you do not have the `arrow` library installed in your machine, you will need to install it before running the code above. You can do so by running the following line: `install.packages("arrow")`. Alternatively, you can run refer to the [Setting up your machine](#setting-up-your-machine) section below for instructions on how to install all packages used in this repository at once.
+Note that if you do not have the `arrow` library installed in your machine, you will need to install it before 
+running the code above. You can do so by running the following line: `install.packages("arrow")`. Alternatively, 
+you can run refer to the [Setting up your machine](#setting-up-your-machine) section below for instructions on how to install all packages used in this repository at once.
 
 </details>
 
@@ -169,19 +174,28 @@ ds = pq.ParquetDataset(dataset_s3)
 
 Remember that you can change the value of `dataset_s3` to the S3 URL address for the dataset you want to access.
 
-Note that if you do not have the `pyarrow` package installed in your machine, you will not be able to run the code above. You can install it using a package manager such as `pip` or `conda`. Alternatively, you can run refer to the [Setting up your machine](#setting-up-your-machine) section below for instructions on how to install all packages used in this repository at once.
+Note that if you do not have the `pyarrow` package installed in your machine, you will not be able to run the code 
+above. You can install it using a package manager such as `pip` or `conda`.  Alternatively, you can run refer to the 
+[Setting up your machine](#setting-up-your-machine) section below for instructions on how to install all packages used in this repository at once.
 
 </details>
 
 ### Extracting tabular data from S3 bucket
 
-Once you have connected to the S3 bucket, you do not have to download the entire dataset to your local machine to carry out your analysis. Instead, you can extract data from the dataset of interest based on one or more conditions. You can then load into memory only the relevant data needed to create summary tables, figures, or maps. We are including code snippets showing a simple data selection based on spatial and temporal conditions.
+Once you have connected to the S3 bucket, you do not have to download the entire dataset to your local machine to 
+carry out your analysis. Instead, you can extract data from the dataset of interest based on one or more conditions. 
+You can then load into memory only the relevant data needed to create summary tables, figures, or maps. We are 
+including code snippets showing a simple data selection based on spatial and temporal conditions.
 
 <details>
 
 <summary><b> Instructions for R users </b></summary>
 
-Once you have connected to the S3 bucket, you can use [`dplyr` verbs](https://dplyr.tidyverse.org/) to extract a subset of the data based on one or more conditions. Here, we assume that a dataset connection has already been established following instructions in the [Connecting to S3 bucket](#connecting-to-s3-bucket) section above and this dataset is stored in the `ds` variable. We will assume that our dataset has `longitude`, `latitude`, and `time` columns, and we will use them to extract data based on spatial and temporal conditions.
+Once you have connected to the S3 bucket, you can use [`dplyr` verbs](https://dplyr.tidyverse.org/) to extract a 
+subset of the data based on one or more  conditions. Here, we assume that a dataset connection has already been 
+established  following instructions in the [Connecting to S3 bucket](#connecting-to-s3-bucket) section above and 
+this dataset is stored in the `ds` variable. We will assume that our dataset has `longitude`, `latitude`, and `time` 
+columns, and we will use them to extract data based on spatial and temporal conditions.
 
 ``` r
 # Loading relevant libraries
@@ -204,7 +218,8 @@ ds_subset <- ds_subset |>
   collect()
 ```
 
-You can change the values of the conditions above to extract data that is relevant for your needs. Other conditions may include extracting data based on a specific site, a specific depth range, or even a specific variable.
+You can change the values of the conditions above to extract data that is relevant for your needs. Other conditions 
+may include extracting data based on a specific site, a specific depth range, or even a specific variable.
 
 </details>
 
@@ -212,7 +227,11 @@ You can change the values of the conditions above to extract data that is releva
 
 <summary><b> Instructions for Python users </b></summary>
 
-Once you have connected to the S3 bucket, you can use the `dask_geopandas` package to connect to a dataset and extract a subset of the data based on one or more conditions. We will assume that our dataset has `longitude`, `latitude`, and `time` columns, and we will use them to extract data based on spatial and temporal conditions. We will use the *AIMS Sea Surface Temperature Monitoring Program* dataset as an example, but you can replace the S3 URL address with the one for the dataset you want to access.
+Once you have connected to the S3 bucket, you can use the `dask_geopandas` package to connect to a dataset and 
+extract a subset of the data based on one or more conditions. We will assume that our dataset  has `longitude`, 
+`latitude`, and `time` columns, and we will use them to extract data based on spatial and temporal conditions. We 
+will use the *AIMS Sea Surface Temperature Monitoring Program* dataset as an example, but you can replace the S3 URL 
+address with the one for the dataset you want to access.
 
 ``` python
 # Loading relevant packages
@@ -248,13 +267,19 @@ ds_subset = ds_subset.compute()
 
 ### Extracting gridded data from S3 bucket
 
-Gridded data is also available in the RIMReP DMS. This data is stored in [Zarr](https://zarr.readthedocs.io/en/stable/) format, which is a format that allows for efficient storage of array-based data. This data is also stored in S3 buckets, but the connection and extraction process is slightly different from the one described above for tabular data.
+Gridded data is also available in the GBR DMS. This data is stored in [Zarr](https://zarr.readthedocs.io/en/stable/) 
+format, which is a format that allows for efficient storage of array-based data. This data is also stored in S3 
+buckets, but the connection and extraction process is slightly different from the one described above for tabular data.
 
 <details>
 
 <summary><b> Instructions for R users </b></summary>
 
-To make access of gridded data in `R` as easy as possible for users, we created a function called `connect_dms_dataset`, which you can find in the `useful_functions.R` script. This function takes the API address for the dataset of interest, the variable name of interest as arguments and returns a `SpatRaster` object. Additionally, you can provide spatial and temporal boundaries to extract data. We will use the *NOAA Coral Reef Watch degree heating weeks* dataset as an example, but you can replace the API address with the one for the dataset you want to access.
+To make access of gridded data in `R` as easy as possible for users, we created a function called 
+`connect_dms_dataset`,  which you can find in the `useful_functions.R` script. This function takes the API address 
+for the dataset of interest, the variable name of interest as arguments and returns a `SpatRaster` object. 
+Additionally, you can provide spatial and temporal boundaries to extract data. We will use the  *NOAA Coral Reef 
+Watch degree heating weeks* dataset as an example, but you can replace the API address with the one for the dataset you want to access.
 
 Note that you will need to head over to our dashboard: <https://dashboard.reefdata.io/> to get a token before you can access the data. When you use the `connect_dms_dataset` function, you will be prompted to enter your token. If you do not have an account, you can contact us at [info-rimrep\@utas.edu.au](mailto:info-rimrep@utas.edu.au).
 
@@ -288,7 +313,9 @@ plot(ras_dhw)
 
 <summary><b> Instructions for Python users </b></summary>
 
-Instead of using `dask_geopandas` to connect to the S3 bucket and extract tabular data, we will use the `s3fs` package to connect and extract gridded data. We will use the *NOAA Coral Reef Watch degree heating weeks* dataset as an example, but you can replace the S3 URL address with the one for the dataset you want to access.
+Instead of using `dask_geopandas` to connect to the S3 bucket and extract tabular data, we will use the `s3fs` 
+package to connect and extract gridded data. We will use the *NOAA Coral Reef Watch degree heating weeks* dataset as 
+an example, but you can replace the S3 URL address with the one for the dataset you want to access.
 
 ``` python
 #Loading relevant packages
