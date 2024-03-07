@@ -1,10 +1,10 @@
 # Style guide
 
-This is the start of the RIMReP DMS visual style guide. We want to have a consistent look and feel across all our applications. I (Nick) have made up some default values until we can all agree on a style.
+This is the start of the GBR DMS visual style guide. We want to have a consistent look and feel across all our applications.
 
 ## Images
 
-### Temporary logo
+### Temporary icon
 
 <img src="https://rimrep-files-public.s3.ap-southeast-2.amazonaws.com/images/logo.png" width="128px">
 

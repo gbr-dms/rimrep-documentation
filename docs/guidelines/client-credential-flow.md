@@ -12,20 +12,20 @@ Note: `rimrep` client id is already created in development and staging-v2.
 ### Pre-requisite
 Set the required environment variables.
 ```
-# These are example values from staging-v2
-export ENV_NAME=staging-v2
-export REALM_NAME=rimrep-staging-v2
+# These are example values from staging
+export ENV_NAME=staging
+export REALM_NAME=rimrep-staging
 export CLIENT_ID=<Get it from AWS secrets manager>
 export CLIENT_SECRET=<Get it from AWS secrets manager>
 ```
 Note: Client ids are managed in terraform code. Once clients are created its credentials are added to AWS secrets manager (keycloak-client-credentials-{clientid}) in their respective environments.
 
-|Variable|Development|Staging-v2|Production|
-|--------|--------|--------|--------|
-| ENV_NAME | development | staging-v2 | |
-| REALM_NAME | rimrep-development | rimrep-staging-v2 | |
-| CLIENT_ID | Refer keycloak-client-credentials-{clientid} |Refer keycloak-client-credentials-{clientid}||
-| CLIENT_SECRET | Refer keycloak-client-credentials-{clientid} |Refer keycloak-client-credentials-{clientid}||
+|Variable|Development| Staging | Production        |
+|--------|--------|---------|-------------------|
+| ENV_NAME | development |         | production        |
+| REALM_NAME | rimrep-development |         | rimrep-production |
+| CLIENT_ID | Refer keycloak-client-credentials-{clientid} |         | Refer keycloak-client-credentials-{clientid}  |
+| CLIENT_SECRET | Refer keycloak-client-credentials-{clientid} |         | Refer keycloak-client-credentials-{clientid} |
 
 
 ### Curl command to create the token 

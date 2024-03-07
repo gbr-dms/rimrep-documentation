@@ -50,7 +50,6 @@ to log in. If not, you can write to info-dms at utas dot edu dot au and we will 
 -   [Description of example notebooks in repository](docs/repository_file_description.md/#description-of-example-notebooks-in-repository)
 -   [Description of scripts in repository](docs/repository_file_description.md/#description-of-scripts-in-repository)
 -   [All Docs](#docs/README.md)
--   [Requirements]](docs/REQUIREMENTS.md)
 -   [Architecture overview](/docs/architecture/README.md)
 
 
