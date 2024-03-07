@@ -2,13 +2,13 @@
 
 ## Summary
 
-- **Metadata API**: [stac-fastapi](https://github.com/stac-utils/stac-fastapi) implementation of [STAC API](https://stacspec.org/en)
+- **Metadata API**:[stac-fastapi](https://github.com/stac-utils/stac-fastapi)implementation of[STAC API](https://stacspec.org/en)
   - [stac-browser](https://github.com/radiantearth/stac-browser) lightweight web-frontend
-- **Data API**: [pygeoapi](https://github.com/geopython/pygeoapi/) implementation of [OGC API Features](https://ogcapi.ogc.org/features/) and [OGC API Coverages](https://ogcapi.ogc.org/coverages/)
-- **Data storage**: [zarr](https://zarr.readthedocs.io/en/stable/) and ([geo](https://geoparquet.org/))[parquet](https://parquet.apache.org/)
-  - These analysis-ready cloud-optimised (ARCO) formats provide a method of direct data access
-- **Data pipeline**: [Argo workflows](https://argoproj.github.io/workflows/)
-- **Deployment**: AWS using [Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/) and [Flux](https://fluxcd.io/)
+- **Data API**:[pygeoapi](https://github.com/geopython/pygeoapi/)implementation of[OGCAPIFeatures](https://ogcapi.ogc.org/features/)and[OGCAPICoverages](https://ogcapi.ogc.org/coverages/)
+- **Data storage**:[zarr](https://zarr.readthedocs.io/en/stable/)and ([geo](https://geoparquet.org/))[parquet](https://parquet.apache.org/)
+  - These analysis-ready cloud-optimised(ARCO) formats provide a method of direct data access
+- **Data pipeline**:[Argo workflows](https://argoproj.github.io/workflows/)
+- **Deployment**: AWS using[Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/)and[Flux](https://fluxcd.io/)
 
 ## Components
 
@@ -76,11 +76,11 @@ flowchart TB
   end
 
 
-  github([GitHub \n DS issue ticket])
+  github([DS issue ticket \n GitHub])
   external_users((External Users))
 
   data_providers --> |Ingested by| data_pipeline
-  external_metadata --> |Created at GitHub| github
+  external_metadata --> |Automatically harvested \n Manually created| github
   github --> catalog
   data_pipeline -->|Configures| data_api
   data_pipeline -->|Configures| metadata_api

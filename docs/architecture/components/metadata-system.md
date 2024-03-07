@@ -12,7 +12,7 @@ See [Metadata API requirements](../../requirements.md#metadata-api) and [Metadat
   - Note: there are two deployments, one is called `internal-stac-fastapi`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
 - Metadata API front-end: [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser)
 - Metadata entry tool: [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf)
-  - Temporary tool to create metadata records to be ingested into external metadata management systems. See [requirements](../../requirements.md#metadata-entry-tool-met) for more details.
+  - Temporary tool to create metadata records to be ingested into external metadata management systems. 
   - Not integrated into any other components
 - Metadata catalog point-of-truth: [`rimrep-catalog`](https://github.com/aodn/rimrep-catalog)
   - Version controlled - GitHub repository

@@ -1,6 +1,6 @@
 # List of internal tools and services
 
-"Internal" tools and services are those that are used by the RIMReP team, but not exposed to the public.
+"Internal" tools and services are those that are used by the DMS team, but not exposed to the public.
 
 This document reflects the current state, not the future or desired state.
 
@@ -23,7 +23,7 @@ Internal services (running inside our Kubernetes cluster):
 
 ## Slack
 
-There is a RIMReP DMS Slack Workspace (separate to IMOS).
+There is a GBR DMS Slack Workspace (separate to IMOS).
 
 https://rimrepdms.slack.com
 
@@ -43,7 +43,7 @@ See https://github.com/aodn/rimrep-dms for all our repositories
 
 ### Configuration
 
-Managed by AODN. No one in the RIMReP team is an owner of the `aodn` GitHub organisation.
+Managed by AODN.
 
 **Note** there are PATs (personal access tokens) for the following:
 
@@ -66,11 +66,11 @@ All of our infrastructure is hosted in AWS. Login through Okta SSO link https://
 
 ### Configuration
 
-Root account is managed by AODN. No one in the RIMReP team is an owner of the root account.
+Root account is managed by AODN. No one in the GBR team is an owner of the root account.
 
 ### Access Control
 
-Auth is handled by Okta (managed by AODN). There are 3 accounts/environments: `development`, `staging` and `production`, with two roles `AdministratorAccess` and `ReadOnlyAccess`. All RIMReP team members have access to both roles in all the environments.
+Auth is handled by Okta (managed by AODN). There are 3 accounts/environments: `development`, `staging` and `production`, with two roles `AdministratorAccess` and `ReadOnlyAccess`. All GBR team members have access to both roles in all the environments.
 
 Be wary of the following **IAM users** we have created:
 
@@ -112,7 +112,7 @@ Okta is used for authentication to AWS, Notion, Argo Workflows and Grafana.
 
 ### Configuration
 
-Managed by AODN. No one in the RIMReP team is an admin.
+Managed by AODN.
 
 ### Access Control
 
