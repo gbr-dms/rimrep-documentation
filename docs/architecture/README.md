@@ -99,8 +99,3 @@ flowchart TB
 
 ```
 
-
-
----
-
-For previous architecture diagrams, see [here](./previous-architecture-diagrams.md).
