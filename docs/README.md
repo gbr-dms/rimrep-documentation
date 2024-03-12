@@ -1,10 +1,5 @@
 # RIMReP DMS Documentation
 
-## High level
-
-- [Requirements](REQUIREMENTS.md)
-- [Roadmap](ROADMAP.md)
-
 ## System
 
 - [Architecture](./architecture/README.md)

@@ -1,7 +1,5 @@
 # Auth
 
-See [Auth requirements](../../requirements.md#auth)
-
 ## Summary
 
 
