@@ -34,13 +34,13 @@ to log in. If not, you can write to info-dms at utas dot edu dot au and we will 
 
 ## Table of contents
 
--   [What is GBR DMS?](#What-is-GBR-DMS?)
--   [Discovering for datasets in GBR DMS](#Discovering-datasets-in-RIMReP-DMS)
-    -   [Discovering for datasets via STAC](#Discovering-datasets-via-STAC)
--   [Code snippets](#Code-snippets)
-    -   [Connecting to tabular dataset in S3 bucket](#Connecting-to-tabular-dataset-in-S3-bucket)
-    -   [Extracting tabular data from S3 bucket](#Extracting-tabular-data-from-s3-bucket)
-    -   [Extracting gridded data from S3 bucket](#Extracting-gridded-data-from-S3-bucket)
+-   [What is GBR DMS?](#what-is-gbr-dms)
+-   [Discovering for datasets in GBR DMS](#discovering-datasets-in-gbr-dms)
+    -   [Discovering for datasets via STAC](#discovering-datasets-via-stac)
+-   [Code snippets](#code-snippets)
+    -   [Connecting to tabular dataset in S3 bucket](#connecting-to-tabular-dataset-in-s3-bucket)
+    -   [Extracting tabular data from S3 bucket](#extracting-tabular-data-from-s3-bucket)
+    -   [Extracting gridded data from S3 bucket](#extracting-gridded-data-from-s3-bucket)
 
 ## More information
 
