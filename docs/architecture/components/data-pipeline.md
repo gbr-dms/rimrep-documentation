@@ -5,7 +5,8 @@ See [Data pipeline requirements](../../requirements.md#data-pipeline)
 ## Summary
 
 - Argo Workflow
-  - Workflows and tempaltes are stored and synced in the [`rimrep-flux`](https://github.com/aodn/rimrep-flux/tree/main/workflows) GitHub repository.
+  - Workflows and templates are stored in the [`rimrep-argo-workflow`](https://github.com/aodn/rimrep-argo-workflow/tree/main/workflows) GitHub repository.
+  - Workflows are synced in [`rimrep-flux`](https://github.com/aodn/rimrep-flux) GitHub repository.
   - Internal auth handled with Okta (maintained by AODN)
 - Python modules and scripts: [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline)
 - For data storage and auth see [Data system architecture](data-system.md)
@@ -83,18 +84,19 @@ flowchart TB
   aws_rds -. Reads STAC from .-> stac_fastapi
   data_workflow -. Generate entries for .-> pygeoapi
 ```
-
 ### Argo Workflows
 
 Kubernetes native workflow engine. Basically DAG of container jobs/steps.
 
-Workflows and workflow templates are stored and synced in the [`rimrep-flux`](https://github.com/aodn/rimrep-flux/tree/main/workflows) GitHub repository.
+Workflows and templates are stored in the [`rimrep-argo-workflow`](https://github.com/aodn/rimrep-argo-workflow/tree/main/workflows) GitHub repository.
+
+Workflows are synced in [`rimrep-flux`](https://github.com/aodn/rimrep-flux) GitHub repository.
 
 All temporary artifacts and logs are stored in an AWS S3 `rimrep-argowf-artifacts` bucket.
 
 ### Data pipeline repository
 
-The [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline) contains multiple python modules and scripts that are used to process data and metadata. It publishes several docker container images to AWS ECR.
+The [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline) contains multiple Python modules and scripts that are used to process data and metadata. It publishes several docker container images to AWS ECR.
 
 ## Auth
 
