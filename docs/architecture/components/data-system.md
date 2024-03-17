@@ -4,10 +4,10 @@ See [Data API requirements](../../requirements.md#data-api)
 
 ## Summary
 
-- Authentication [`oauth2proxy`](https://oauth2-proxy.github.io/oauth2-proxy/) (See [auth architecture](auth.md))
+- Authentication [`Keycloak`](https://www.keycloak.org/) (See [auth architecture](auth.md))
 - Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi)
-- Data API authorization: [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/)
-- Direct access: AWS S3 or [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/)
+- Data API authorization: [`KrakenD`](https://www.krakend.io/)
+- Direct access: AWS S3 or [`KrakenD`](https://www.krakend.io/)
 
 ## Architecture
 
@@ -35,28 +35,29 @@ flowchart TB
   subgraph "k8s"
 
     data_api(Pygeoapi)
-    s3_proxy(S3 Proxy):::red
-    oauth2_proxy(Oauth2 Proxy):::red
+    krakend(KrakenD):::red
+    keycloak(Keycloak):::red
   end
 
   external_users((External Users))
 
   public_data_storage -->|S3/HTTP REST| data_api & external_users
-  data_api -->|OGC APIs| oauth2_proxy
+  data_api -->|OGC APIs| krakend
 
-  private_data_storage -->|S3| s3_proxy
-  s3_proxy -->|HTTP REST| data_api & oauth2_proxy
+  private_data_storage -->|S3/HTTP REST| data_api
+  krakend -->|HTTP REST| keycloak
 
-  oauth2_proxy --> external_users
+  keycloak --> external_users
 ```
 
 ### Data storage
 
 All data is stored in AWS S3 in two buckets
 
-- `rimrep-data-public` for public data
-- `rimrep-data-limited-access` for limited access data
+- `gbr-dms-data-public` for public data
+- `gbr-dms-data-limited-access` for limited access data
 - See [data sensitivity classification](../../data/data-sensitivity.md) for more details
+- The development environment uses buckets named `rimrep-data-public-development` and `rimrep-data-limited-access-development`
 
 We support two data formats:
 
@@ -67,17 +68,15 @@ We support two data formats:
 
 We are using [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi) (a fork of [`pygeoapi`](https://github.com/geopython/pygeoapi/)) to publish OGC APIs for data access.
 
-This will publish [OGC API Features](https://ogcapi.ogc.org/features/) (from geo/parquet) and [OGC API Coverages](https://ogcapi.ogc.org/coverages/) (from zarr).
+This will publish [OGC API Features](https://ogcapi.ogc.org/features/) (from geo/parquet) and [OGC API Coverages](https://ogcapi.ogc.org/coverages/) (from zarr).
 
 ## Auth
 
 See [Auth architecture](auth.md) documentation for more detailed information.
 
-Currently, `pygeoapi` requires authentication for all datasets. In the future, we will make all datasets open access by default, and only require authorization for limited access datasets.
+Currently, `pygeoapi` requires authentication for all datasets. Access to limited-access datasets requires authorization through KrakenD.
 
-Public data is in the `rimrep-data-public` S3 bucket and is accessible to all users without authentication (directly to AWS S3). Limited access data is in the `rimrep-data-limited-access` S3 bucket and is only accessible to authorized users through [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/). This applies to both "direct access" and "data API" access.
+Public data is in the `gbr-dms-data-public` S3 bucket and is accessible to all users without authentication (directly to AWS S3). Limited access data is in the `gbr-dms-data-limited-access` S3 bucket and is only accessible to authorized users through [`KrakenD`](https://www.krakend.io/). This applies to both "direct access" and "data API" access.
 
-- Direct access: [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/) is used to proxy requests to the private S3 bucket. It doesn't support S3 API, but does support HTTP REST API.
-- Data API access: `pygeoapi` does not access to the `rimrep-data-limited-access` bucket directly (through S3), and it does not have authorization built in. When a user makes a request, the `Authorization` token is passed through to [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/) which authorizes the request.
-
-Data API authorization is handled by [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/), currently this is hard-coded configuration. In the future we will use [Open Policy Agent (OPA)](https://www.openpolicyagent.org/) to provide fine-grained authorization.
+- Direct access: [`KrakenD`](https://www.krakend.io/) is used to proxy requests to the private S3 bucket.
+- Data API access: `pygeoapi` can access the `gbr-dms-data-limited-access` bucket directly (through S3), and it does not have authorization built in. Users accessing Pygeoapi need to be authenticated via [`Keycloak`](https://www.keycloak.org/), and their connection will go through [`KrakenD`](https://www.krakend.io/), which manages authorization.
