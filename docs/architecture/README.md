@@ -28,19 +28,19 @@
 - **[Data system](./components/data-system.md)**
   - Data storage: AWS S3
   - Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi)
-  - Data API auth: [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/)
-  - Direct access: AWS S3 or [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/)
+  - Data API auth: [`KrakenD API Gateway`](https://www.krakend.io/)
+  - Direct access: AWS S3 or [`KrakenD API Gateway`](https://www.krakend.io/)
 - **[Data pipeline](./components/data-pipeline.md)**
   - Argo Workflows ([`rimrep-flux`](https://github.com/aodn/rimrep-flux))
   - Python modules: [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline)
 - **[Auth](./components/auth.md)**
   - Okta for internal services
-  - Auth0 for external services
+  - [Keycloak](https://www.keycloak.org) for external services
   - Authentication in front of services: [`oauth2proxy`](https://oauth2-proxy.github.io/oauth2-proxy/)
-  - Authorization in front of data: [`s3proxy`](https://oxyno-zeta.github.io/s3-proxy/)
+  - Authorization in front of data: [`KrakenD API Gateway`](https://www.krakend.io/)
 - **[Admin dashboard](./components/admin-dashboard.md)**
   - Simple front-end: [`rimrep-dashboard`](https://github.com/aodn/rimrep-dashboard)
-  - In very early stage, currently it serves a single purpose - to let users copy their JWT identity token to clipboard.
+  - Allows users copy their JWT identity token to clipboard.
 
 ## High level architecture
 
