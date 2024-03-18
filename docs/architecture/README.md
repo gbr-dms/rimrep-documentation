@@ -16,8 +16,8 @@
 - **[Infrastructure as Code (IaC)](./components/iac.md)**
   - External services + Cloud infrastructure + Kubernetes bootstrap: [`rimrep-terraform`](https://github.com/aodn/rimrep-terraform)
   - GitOps: [`rimrep-flux`](https://github.com/aodn/rimrep-flux)
-- **[Observability](./components/observability.md)** (configured in [`rimrep-flux`](https://github.com/aodn/rimrep-flux))
-  - Prometheus stack: Grafana, Loki, Prometheus, AlertManager
+- **[Observability](./components/observability.md)**
+  - New Relic
   - Weave GitOps (front end for Flux)
 - **[Metadata system](./components/metadata-system.md)**
   - Metadata entry tool: [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf)
