@@ -1,17 +1,8 @@
 # Data Ingestion Guidelines
 
-WIP
-
 See [Data System architecture](../architecture/components/data-system.md)
 
 Before we ingest any closed (private or sensitive) data, we **must** have a [Data Sharing Agreement](data-sharing-agreement.md) in place.
-
-Two types of datasets
-
-- [We ingest data](#we-ingest-data-minimum-requirements) from external sources, convert to zarr/parquet and then publish
-- [We re-publish data](#we-re-publish-data-minimum-requirements) from other sources as-is, provided they publish compatible zarr/parquet datasets
-
-Both types have different requirements for data access and structure.
 
 See also
 
@@ -31,19 +22,19 @@ It consists of
 
 Data access requirements are categorised based on data update frequency.
 
-Note: "direct" data access means zero human intervention (eg. no email to download forms)
+Note: "direct" data access means zero human intervention (eg. no email to download forms, no pop-up to accept conditions before download)
 
 #### Non-updated
 
 - Manual handling of data is acceptable.
 - We can manually upload original data files to our S3.
-  - or provide a mechanism for data providers to upload the data to our S3 (TBC)
+  - or provide a mechanism for data providers to upload the data to our S3 (gbr-dms-shared-access)
 
 #### Infrequently updated (i.e. >=yearly)
 
 - If "direct" download access is available - we will use it
 - If not, download access that requires human intervention is acceptable (eg email form)
-- How we downloaded the file must be documented
+  - How we downloaded the file must be documented
 
 #### Frequently updated data (< yearly)
 
@@ -84,17 +75,3 @@ We must be able to identify the following variable types:
   - CRS
 
 We will not allow variables of mixed-types. We can perform basic cleansing of variables - for example dropping values that do not fit the specified type.
-
-## We re-publish data: minimum requirements
-
-TBC
-
-Basically, the provider must adhere to the following
-
-### Data format
-
-- S3 compatible storage
-- Parquet or zarr (we will provide detailed spec of version, structure etc)
-- ...
-
-If requirements are met, we will point directly at the data source (eg S3 bucket) and not ingest/copy the data.
