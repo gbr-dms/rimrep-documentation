@@ -2,19 +2,13 @@
 
 Definition of done for data ingestion.
 
-Very basic for open-access data only.
-
 - Dataset satisfies "Data ingestion guidelines"
-- Argo Workflow created to convert dataset with documentation for the following
-  - Name
-  - Data update frequency
-  - Manual data download steps if applicable
-    - Input is stored in `rimrep-data-input` bucket
-  - Instructions on how to run Argo Workflow (if one-off)
-  - Data license
-- For non-predefined geometries
-  - zarr/parquet stored in `rimrep-data-public` bucket
-  - Collection is added to `pygeoapi` configuration
-- For predefined geometries
-  - STAC collection is created for each dataset
-  - STAC items are created for each region/geometry
+- Argo Workflow created to convert and publish dataset
+  - Chron workflow set up with appropriate frequency for regularly-updated data
+- If any of these apply, documentation created to describe:
+  - Manual data download steps
+    - Input is stored in `gbr-dms-data-shared-access` bucket
+  - Additional manual steps needed to run Argo Workflow
+  - Non-standard data license
+- For limited access data:
+  - Appropriate access checks set up on KrakenD
