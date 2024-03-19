@@ -284,6 +284,3 @@ By combining the KrakenD S3 Plug-in with the KrakenD API Gateway, you can effici
 
 
 
-## Internal Services
-
-See [Internal tools and services](../../internal/internal-tools-and-services.md)

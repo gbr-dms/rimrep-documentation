@@ -100,4 +100,4 @@ The [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline) conta
 
 ## Auth
 
-Argo Workflows is for internal use only. Authentication is handled through AODN's Okta instance. See [Internal tools and services](../../internal/internal-tools-and-services.md#argo-workflows)
+Argo Workflows is for internal use only. Authentication is handled through AODN's Okta instance.

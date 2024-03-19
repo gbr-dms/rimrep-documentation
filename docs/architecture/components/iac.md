@@ -9,9 +9,6 @@ WIP
 
 ## Cluster overview
 
-### Internal Services
-
-See [Internal tools and services](./../../internal/internal-tools-and-services.md)
 
 ```mermaid
 %%{
