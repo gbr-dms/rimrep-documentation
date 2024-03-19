@@ -210,7 +210,9 @@ _Note: Dashed line = not implemented yet_
 flowchart TB
   classDef red fill:#ffcccc,stroke:#ff0000;
 
-  metadata_providers((Data Providers))
+  subgraph github["GitHub"]
+    catalog(rimrep-catalog)
+  end
 
   subgraph group_external_metadata["External Metadata"]
     rks(Reef Knowledge System)
@@ -223,34 +225,27 @@ flowchart TB
   end
 
   subgraph pipeline["Argo Workflows"]
-    direction TB
+    direction LR
     metadata_harvester(metadata-harvester)
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
     data_workflow --> |"Populated datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow
-
   end
 
+  metadata_providers((Data Providers))
   metcalf(metcalf)
-
   rimrep_admin((DMS Admin))
-
-  subgraph github["GitHub"]
-    catalog(rimrep-catalog)
-  end
-  
   stac_db[(STAC DB)]
   stac_fastapi_internal(stac-fastapi-internal)
 
+  github ~~~ pipeline
 
   metadata_providers -->|Manually create records using| metcalf
   metcalf  -. Ingested to .-> rks
-  group_external_metadata --> |Harvest external metadata| metadata_harvester
+  rks -. Harvest .-> metadata_harvester
+  external_metadata --> |Harvest external metadata| metadata_harvester
   metadata_harvester --> |Harvested initial metadata|catalog
-
-
   group_external_data -->|Ingest| data_workflow
-
   rimrep_admin -->|"Curate initial metadata files"| catalog
   catalog --> |Jsonnet files| metadata_workflow
   catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
