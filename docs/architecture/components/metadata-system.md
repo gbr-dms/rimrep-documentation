@@ -23,7 +23,7 @@
 
 ## Architecture
 
-Current:
+_(Note: Dashed line = not implemented yet)_
 
 ```mermaid
 %%{
@@ -50,149 +50,57 @@ flowchart TB
     catalog(rimrep-catalog)
   end
 
-   subgraph aws_managed ["AWS Managed"]
-    subgraph aws_rds["AWS RDS Postgres"]
-        aws_rds_metcalf[(metcalf DB)]
-        aws_rds_stac[(stac DB)]
-        aws_rds_metcalf ~~~ aws_rds_stac
-    end
-    aws_S3[(AWS S3)]
+  subgraph aws_rds["AWS RDS Postgres"]
+      aws_rds_metcalf[(metcalf DB)]
+      aws_rds_stac[(stac DB)]
+      aws_rds_metcalf ~~~ aws_rds_stac
   end
 
   subgraph "k8s"
 
-    subgraph stac_fastapi_group[" "]
+    subgraph stac_fastapi_group["Metadata back-end"]
       stac_fastapi(stac-fastapi)
       internal_stac_fastapi(internal-stac-fastapi)
     end
 
-    metadata_frontend(stac-browser)
-    oauth2_proxy(Oauth2 Proxy):::red
+    subgraph frontend_group["Metadata front-end"]
+      metadata_frontend(stac-browser)
+    end
+
+    metadata_harvester(metadata-harvester)
+    metadata_pipeline(metadata-pipeline)
+    krakend(KrakenD)
+    keycloak(Keycloak)
 
     metcalf(metcalf)
   end
 
-  data_providers ~~~ aws_managed
+  data_providers ~~~ aws_rds
 
-  external_users(External Users)
+  external_users((External Users))
 
   internal_stac_fastapi -->  |Write STAC JSON to|aws_rds_stac
   metcalf --> |Store metadata records in| aws_rds_metcalf
   aws_rds_stac --> |Read STAC JSON|stac_fastapi
 
-  external -- Manually harvested to --> catalog
-  aws_S3 -- "`Manually generate data-driven metadata<br>&<br>copied to`" --> catalog
-  metcalf --Manualy copied to--> catalog
+  external --> metadata_harvester
+  metadata_harvester --> catalog
+  metcalf -. Harvest .-> metadata_harvester
 
-  catalog --"`Manually generate STAC JSON <br> & <br> publish to`"--> internal_stac_fastapi
+  catalog --"Curated metadata files"--> metadata_pipeline
+  metadata_pipeline -- "Generated STAC JSON"--> internal_stac_fastapi
  
-  stac_fastapi -->|STAC API| oauth2_proxy & metadata_frontend
-
-  metadata_frontend -->|Web UI| oauth2_proxy
-  oauth2_proxy --> external_users
-
-  metadata_providers -->|Create records in| metcalf
-```
-
-Future:
-
-```mermaid
-%%{
-  init: {
-    'theme': 'base',
-    'themeVariables': {
-      'edgeLabelBackground': '#ffffff',
-      'tertiaryTextColor': '#0f00aa',
-      'clusterBkg': '#fafaff',
-      'clusterBorder': '#0f00aa'
-    }
-  }
-}%%
-
-flowchart TB
-  classDef red fill:#ffcccc,stroke:#ff0000;
-
-  subgraph group_data_providers ["Data providers"]
-    external((Data Providers <br> with metadata records))
-    metadata_providers((Data Providers <br> without metadata records))
-  end
-
-  subgraph group_github ["GitHub"]
-      catalog(rimrep-catalog)
-  end
-
-  subgraph group_k8s ["k8s"]
-    subgraph metadata_argo_workflow ["Metadata Workflows (detailed)"]
-        harvest_external_metadata[[Harvest external metadata]]
-        harvest_metcalf_metadata[[Harvest metcalf metadata]]
-        populate_datapackagejson[["Populate datapackage.json with harvested metadata"]]
-        generate_json[[Generate STAC JSON]]
-        validate_json[[Validate STAC JSON]]
-        publish_json[[Publish STAC JSON]]
-        harvest_external_metadata -. "metadata.json (or)" .-> populate_datapackagejson
-        harvest_metcalf_metadata -. "metadata.json (either)" .-> populate_datapackagejson
-        generate_json --> validate_json
-        validate_json --> publish_json
-        harvest_metcalf_metadata ~~~ harvest_external_metadata
-    end
-      KeyCloak(KeyCloak):::red
-      KrakenD(KrakenD):::red
-
-    subgraph data_argo_workflow ["Data Workflows"]
-    end
-
-    subgraph stac_fastapi_group["Protected Resources"]
-      stac_fastapi(stac-fastapi)
-    end
-
-    metcalf(metcalf)
-  end
-
-  subgraph group_aws_managed ["AWS Managed"]
-    subgraph aws_managed ["AWS RDS Postgres"]
-        aws_rds_metcalf[(metcalf DB)]
-        aws_rds_stac[(stac DB)]
-        aws_rds_metcalf ~~~ aws_rds_stac
-    end
-    aws_sm(AWS Secret Manager)
-    aws_S3[(AWS S3)]
-    aws_S3 ~~~ aws_rds_metcalf
-  end
-
-  group_data_providers ~~~ group_github
-
-  external_users(External Users)
-
-
-  metcalf <--> |Metcalf records|aws_rds_metcalf
-  aws_rds_stac <--> |Read, Write STAC JSON|stac_fastapi
-
-  external -. Harvested by .-> harvest_external_metadata
-
-  catalog -. Human curated jsonnet files .-> generate_json
-  catalog -. "Human curated initial datapackage.json" .-> data_argo_workflow
-  data_argo_workflow -. "`populated datapackage.json with<br>data-driven metadata`" .-> populate_datapackagejson
-  populate_datapackagejson -. "complete datapackage.json" .-> generate_json
-  populate_datapackagejson -. "complete datapackage.json" .-> aws_S3
-  aws_sm -.get client secret.-> publish_json
-  publish_json -. "Authenticate - passing credentials" .-> KeyCloak
-  publish_json -. "Authorize - passing access token" .-> KrakenD
-  KeyCloak <-. Validate Token .->KrakenD
-  KrakenD <-. Read, Write data - /GET - /POST .-> stac_fastapi
-  aws_rds_metcalf -. Metcalf records .-> harvest_metcalf_metadata
-
-
-
-
-  external_users -. Authenticate - passing clientID/Secret .-> KeyCloak
-  external_users -. Authorize - passing access token .-> KrakenD
+  stac_fastapi -->|STAC REST API| krakend & metadata_frontend
+  metadata_frontend --> |Web UI| krakend
+  krakend --> keycloak
+  keycloak --> external_users
 
   metadata_providers -->|Create records in| metcalf
 ```
 
 ### Metadata flow 
 
-_Note: Dashed line = not implemented yet_
+_(Note: Dashed line = not implemented yet)_
 
 ```mermaid
 %%{
@@ -229,7 +137,7 @@ flowchart TB
     metadata_harvester(metadata-harvester)
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
-    data_workflow --> |"Populated datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow
+    data_workflow --> |"Complete datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow & s3
   end
 
   subgraph AWS["AWS"]
@@ -255,7 +163,6 @@ flowchart TB
   catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
   metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
-  data_workflow --> |"Complete datapackage.json &<br>tableschema.json"|s3
   data_workflow --> |"Zarr/Parquet data"|s3
 ```
 
