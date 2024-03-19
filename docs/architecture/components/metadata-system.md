@@ -142,12 +142,12 @@ flowchart TB
 
   subgraph AWS["AWS"]
     s3[(S3 bucket)]
+    stac_db[(STAC DB)]
   end
 
   metadata_providers((Data Providers))
   metcalf(metcalf)
   rimrep_admin((DMS Admin))
-  stac_db[(STAC DB)]
   stac_fastapi_internal(stac-fastapi-internal)
 
   group_external_data ~~~ pipeline
@@ -256,8 +256,8 @@ flowchart TD
         harvest_metadata_create --> create_github_ticket
         create_github_ticket --> notify_stakeholders
         notify_stakeholders --> human_intervention
-        human_intervention --> |manual|generate_datapackagejson
-        generate_datapackagejson --> |manual|submit_pr_manual
+        human_intervention --> generate_datapackagejson
+        generate_datapackagejson --> submit_pr_manual
 
     end
     
@@ -271,7 +271,7 @@ flowchart TD
 
 We are using [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi) (a fork of [`stac-fastapi`](https://github.com/stac-utils/stac-fastapi)) to publish STAC API. It is using the [`pgstac`](https://github.com/stac-utils/pgstac) back-end with an AWS RDS PostgreSQL instance.
 
-Note: there are two deployments, one is called `internal-stac-fastapi`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
+Note: there are two deployments, one is called `stac-fastapi-internal`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
 
 ### Metadata API front-end
 
