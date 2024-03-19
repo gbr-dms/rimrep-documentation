@@ -226,13 +226,13 @@ flowchart TB
     direction TB
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
-    data_workflow -. "`populated datapackage.json with<br>data-driven metadata`" .-> metadata_workflow
+    data_workflow --> |"`populated datapackage.json &<br>tableschema.json with<br>data-driven metadata`"|metadata_workflow
 
   end
 
   metcalf(metcalf)
 
-  rimrep_admin((RIMReP Admin))
+  rimrep_admin((DMS Admin))
 
   subgraph github["GitHub"]
     catalog(rimrep-catalog)
@@ -240,20 +240,21 @@ flowchart TB
   
   stac_db[(STAC DB)]
   stac_fastapi_internal(stac-fastapi-internal)
-
+  metadata_harvester(metadata-harvester)
 
 
   metadata_providers -->|Manually create records using| metcalf
   metcalf  -. Ingested to .-> rks
-  group_external_metadata -. Harvested external metadata .-> metadata_workflow
+  group_external_metadata --> |Harvest external metadata| metadata_harvester
+  metadata_harvester --> |Harvested initial metadata|catalog
 
 
   group_external_data -->|Ingest| data_workflow
 
-  rimrep_admin -->|"`Curate initial datapackage.json<br>&  Jsonnet files`"| catalog
-  catalog -.Jsonnet files.-> metadata_workflow
-  catalog -."Initial datapackage.json".-> data_workflow
-  metadata_workflow -. Published to .->stac_fastapi_internal
+  rimrep_admin -->|"`Curate initial metadata files`"| catalog
+  catalog --> |Jsonnet files| metadata_workflow
+  catalog --> |"Initial datapackage.json & tableschema.json"| data_workflow
+  metadata_workflow -->  |"`Generate STAC Collections & Items<br>Publish to`"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
 ```
 
