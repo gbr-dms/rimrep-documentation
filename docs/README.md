@@ -3,7 +3,6 @@
 ## System
 
 - [Architecture](./architecture/README.md)
-- [Internal tools and services](./internal/internal-tools-and-services.md)
 
 ## Guidelines
 
