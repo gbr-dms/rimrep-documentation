@@ -224,9 +224,10 @@ flowchart TB
 
   subgraph pipeline["Argo Workflows"]
     direction TB
+    metadata_harvester(metadata-harvester)
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
-    data_workflow --> |"`populated datapackage.json &<br>tableschema.json with<br>data-driven metadata`"|metadata_workflow
+    data_workflow --> |"Populated datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow
 
   end
 
@@ -240,7 +241,6 @@ flowchart TB
   
   stac_db[(STAC DB)]
   stac_fastapi_internal(stac-fastapi-internal)
-  metadata_harvester(metadata-harvester)
 
 
   metadata_providers -->|Manually create records using| metcalf
@@ -251,10 +251,10 @@ flowchart TB
 
   group_external_data -->|Ingest| data_workflow
 
-  rimrep_admin -->|"`Curate initial metadata files`"| catalog
+  rimrep_admin -->|"Curate initial metadata files"| catalog
   catalog --> |Jsonnet files| metadata_workflow
-  catalog --> |"Initial datapackage.json & tableschema.json"| data_workflow
-  metadata_workflow -->  |"`Generate STAC Collections & Items<br>Publish to`"|stac_fastapi_internal
+  catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
+  metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
 ```
 
