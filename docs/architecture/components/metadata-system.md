@@ -232,13 +232,17 @@ flowchart TB
     data_workflow --> |"Populated datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow
   end
 
+  subgraph AWS["AWS"]
+    s3[(S3 bucket)]
+  end
+
   metadata_providers((Data Providers))
   metcalf(metcalf)
   rimrep_admin((DMS Admin))
   stac_db[(STAC DB)]
   stac_fastapi_internal(stac-fastapi-internal)
 
-  github ~~~ pipeline
+  group_external_data ~~~ pipeline
 
   metadata_providers -->|Manually create records using| metcalf
   metcalf  -. Ingested to .-> rks
@@ -251,6 +255,8 @@ flowchart TB
   catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
   metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
+  data_workflow --> |"Complete datapackage.json &<br>tableschema.json"|s3
+  data_workflow --> |"Zarr/Parquet data"|s3
 ```
 
 ### Metadata API back-end
