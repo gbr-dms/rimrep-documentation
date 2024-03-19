@@ -137,7 +137,6 @@ flowchart TB
     metadata_harvester(metadata-harvester)
     metadata_workflow(Metadata workflows)
     data_workflow(Data workflows)
-    data_workflow --> |"Complete datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow & s3
   end
 
   subgraph AWS["AWS"]
@@ -164,6 +163,7 @@ flowchart TB
   metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
   data_workflow --> |"Zarr/Parquet data"|s3
+  data_workflow --> |"Complete datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow & s3
 ```
 
 ### Metadata API back-end
