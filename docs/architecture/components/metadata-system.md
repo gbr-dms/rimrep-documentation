@@ -269,8 +269,6 @@ flowchart TD
 
 ### Metadata API back-end
 
-See [Metadata API requirements](../../requirements.md#metadata-api)
-
 We are using [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi) (a fork of [`stac-fastapi`](https://github.com/stac-utils/stac-fastapi)) to publish STAC API. It is using the [`pgstac`](https://github.com/stac-utils/pgstac) back-end with an AWS RDS PostgreSQL instance.
 
 Note: there are two deployments, one is called `internal-stac-fastapi`, it has read/write access and is only accessible from within the k8s cluster. The other is called `stac-fastapi`, it only has read access and is accessible from outside the k8s cluster.
@@ -280,8 +278,6 @@ Note: there are two deployments, one is called `internal-stac-fastapi`, it has r
 We are using [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser) (a fork of [`stac-browser`](https://github.com/radiantearth/stac-browser)), which provides a simple Web UI to browse STAC API.
 
 ### Metadata entry tool
-
-See [Metadata entry tool requirements](../../requirements.md#metadata-entry-tool-met)
 
 We are using [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf) to provide a Web UI for data providers to use to create metadata records.
 
