@@ -54,10 +54,7 @@ flowchart TB
   subgraph group_k8s ["k8s"]
     stac_fastapi(stac-fastapi)
     pygeoapi(pygeoapi)
-    
-    subgraph argo_workflows["Argo Workflows"]
-      data_workflow(Dataset workflows)
-    end
+    data_workflow(Dataset argo workflows)
   end
 
   group_k8s ~~~ group_s3
@@ -65,8 +62,8 @@ flowchart TB
   rimrep_admin((RIMReP Admin))
 
   data_pipeline_repo -->|Push container images to| aws_ecr
-  aws_ecr -->|Pull container images from| argo_workflows
-  argo_repo -->|Sync workflows/templates| argo_workflows
+  aws_ecr -->|Pull container images from| data_workflow
+  argo_repo -->|Sync workflows/templates| data_workflow
 
   data_workflow -->|ARCO data\nFrictionless datapackage.json\n& tableschema.json/gridscheme.json| public_data_storage & private_data_storage
   data_workflow --> |Artifacts/logs|artifact_storage
