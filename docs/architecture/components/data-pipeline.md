@@ -78,6 +78,77 @@ flowchart TB
   data_workflow --> |Updates| stac_fastapi
 
 ```
+
+### Flow chart of pipeline steps
+```mermaid
+
+flowchart TB
+
+    check_extents[check-extents]
+    harvest["harvest-metadata-by-dataset-id\n(with/without extents)"]
+    has_updates{has new metadata?}
+    update_ds[update-dataset-issue]
+    generate_datapkg[generate-datapackage-from-dataset-issue]
+    compare_datapkg[compare-datapackage-with-existing]
+    datapkg_changed{changed?}
+    submit_datapkg[submit-updated-datapkg]
+    generate_datadriven[generate-datadriven-metadata]
+    file_format{file format?}
+    generate_datadriven_parquet[generate-datadriven-metadata-parquet]
+    generate_datadriven_zarr[generate-datadriven-metadata-zarr]
+    generate_frictionless[generate-frictionless-metadata]
+    create_pr[create-pr-in-catalog-repo]
+    get_catalog[get-catalog-files]
+    upload_data[upload-arco-data-to-s3]
+    upload_frictionless[upload-frictionless-json-to-s3]
+    generate_item[generate-stac-item]
+    validate_item[validate-stac-item]
+    check_collection[check-stac-collection-exist]
+    create_collection[create-stac-collection]
+    ingest_initial_collection[ingest-initial-stac-collection]
+    collection_exists{collection exists?}
+    ingest_item[ingest-stac-item]
+    generate_updated_collection[generate-updated-collection-from-items]
+    validate_updated_collection[validate-updated-collection]
+    ingest_updated_collection[ingest-updated-collection]
+    generate_pygeo[generate-pygeoapi-entry]
+    validate_pygeo[validate-pygeoapi-entry]
+    ingest_pygeo[ingest-pygeoapi-entry]
+
+
+    check_extents --> harvest
+    harvest --> has_updates
+    has_updates --> |yes| update_ds
+    has_updates --> |no| generate_datapkg
+    update_ds --> generate_datapkg
+    generate_datapkg --> compare_datapkg
+    compare_datapkg --> datapkg_changed
+    datapkg_changed --> |yes| submit_datapkg
+    submit_datapkg --> create_pr
+    datapkg_changed --> |no\n\nbase-branch| get_catalog
+    submit_datapkg --> |updated-branch|get_catalog
+    get_catalog --> generate_frictionless
+    generate_datadriven --> file_format
+    file_format --> |parquet|generate_datadriven_parquet
+    file_format --> |zarr|generate_datadriven_zarr
+    generate_datadriven_parquet & generate_datadriven_zarr --> generate_frictionless
+    generate_frictionless --> upload_data & upload_frictionless & generate_pygeo
+    generate_pygeo --> validate_pygeo
+    validate_pygeo --> ingest_pygeo
+    generate_frictionless & get_catalog --> generate_item
+    generate_item --> validate_item
+    validate_item --> check_collection
+    check_collection --> collection_exists
+    collection_exists --> |no| create_collection
+    create_collection --> ingest_initial_collection
+    collection_exists --> |yes| ingest_item
+    ingest_initial_collection --> ingest_item
+    ingest_item --> generate_updated_collection
+    generate_updated_collection --> validate_updated_collection
+    validate_updated_collection --> ingest_updated_collection
+
+```
+
 ### Argo Workflows
 
 Kubernetes native workflow engine. Basically DAG of container jobs/steps.
