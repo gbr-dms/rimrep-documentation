@@ -133,11 +133,17 @@ flowchart TB
     external_data_storage[(Storage)]
   end
 
-  subgraph pipeline["Argo Workflows"]
-    direction LR
-    metadata_harvester(metadata-harvester)
-    metadata_workflow(metadata-pipeline)
-    data_workflow(data-pipeline)
+  subgraph workflows["Argo Workflows"]
+    metadata_harvester("metadata-harvester\n(creator harvester)")
+
+    subgraph pipeline["Dataset pipeline"]
+      direction TB
+      harvest["harvest metadata\n(updater harvester)"]
+      transform[transform data & metadata]
+      ingest[ingest]
+      upload[upload]
+    end
+
   end
 
   subgraph AWS["AWS"]
@@ -150,21 +156,22 @@ flowchart TB
   rimrep_admin((DMS Admin))
   stac_fastapi_internal(stac-fastapi-internal)
 
-  group_external_data ~~~ pipeline
+  group_external_data ~~~ workflows
 
   metadata_providers -->|Manually create records using| metcalf
   metcalf  -. Ingested to .-> rks
   rks -. Harvest .-> metadata_harvester
   external_metadata --> |Harvest external metadata| metadata_harvester
-  metadata_harvester --> |Harvested initial metadata|catalog
-  group_external_data -->|Ingest| data_workflow
-  rimrep_admin -->|"Curate initial metadata files"| catalog
-  catalog --> |Jsonnet files| metadata_workflow
-  catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
-  metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
+  metadata_harvester --> |Harvest metadata\n & create dataset issues|catalog
+  group_external_data -->|Fetch data| transform
+  rimrep_admin -->|"Curate dataset issues"| catalog
+  harvest --> |Updated datapackage.json|catalog
+  harvest --> |datapackage.json|transform --> ingest & upload
+  catalog --> |"tableschema.json/gridschema.json\ncollection.jsonnet\n*.libsonnet"| transform
+  ingest -->  |"STAC Collections & Items"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
-  data_workflow --> |"Zarr/Parquet data"|s3
-  data_workflow --> |"Complete datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow & s3
+  upload --> |"Zarr/Parquet data"|s3
+  upload --> |"Frictionless datapackage.json &\ntableschema.json/gridschema.json"| s3
 ```
 
 ### Metadata pipeline
