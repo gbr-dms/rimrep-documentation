@@ -13,6 +13,8 @@ See [Data pipeline requirements](../../requirements.md#data-pipeline)
 
 ## Architecture
 
+### High level architecture of the pipeline
+
 ```mermaid
 %%{
   init: {
@@ -40,26 +42,25 @@ flowchart TB
     data_pipeline_repo(rimrep-data-pipeline)
   end
 
-  subgraph "AWS S3"
+  subgraph group_s3["AWS S3"]
+    direction LR
     public_data_storage[(Public data)]
-    artifact_storage[(Artifacts/Logs)]:::red
     private_data_storage[(Private data)]:::red
+    artifact_storage[(Artifacts/Logs)]:::red
   end
 
   aws_ecr[(AWS ECR)]
-  aws_rds[(STAC DB)]
-
-  subgraph argo_workflows["Argo Workflows"]
-    data_workflow(Data workflows)
-
-    metadata_workflow(Metadata workflows)
-  end
 
   subgraph group_k8s ["k8s"]
     stac_fastapi(stac-fastapi)
-    internal_stac_fastapi(internal-stac-fastapi)
     pygeoapi(pygeoapi)
+    
+    subgraph argo_workflows["Argo Workflows"]
+      data_workflow(Dataset workflows)
+    end
   end
+
+  group_k8s ~~~ group_s3
 
   rimrep_admin((RIMReP Admin))
 
@@ -67,22 +68,18 @@ flowchart TB
   aws_ecr -->|Pull container images from| argo_workflows
   argo_repo -->|Sync workflows/templates| argo_workflows
 
-  data_workflow -->|ARCO data| public_data_storage & private_data_storage
-  metadata_workflow & data_workflow -->|Artifacts/logs| artifact_storage
+  data_workflow -->|ARCO data\nFrictionless datapackage.json\n& tableschema.json/gridscheme.json| public_data_storage & private_data_storage
+  data_workflow --> |Artifacts/logs|artifact_storage
 
-  catalog -. Jsonnet files .-> metadata_workflow
+  catalog --> |tableschema.json/gridschema.json\ncollection.jsonnet\n*.libsonnet| data_workflow
+  catalog <--> |datapackage.json| data_workflow
 
   data --->|Ingest| data_workflow
-  metadata -. Harvest .-> metadata_workflow
-  rimrep_admin -. "`Curate initial datapackage.json<br>& Jsonnet files`" .-> catalog
-  catalog -. "Initial datapackage.json" .-> data_workflow
-  data_workflow -. "`populated datapackage.json with<br>data-driven metadata`" .-> metadata_workflow
-  metadata_workflow -. "complete datapackage.json" .-> public_data_storage
-  metadata_workflow -. "complete datapackage.json" .-> private_data_storage
-  metadata_workflow -. Generate STAC Collection&Item .-> internal_stac_fastapi
-  internal_stac_fastapi -. Writes STAC to .-> aws_rds
-  aws_rds -. Reads STAC from .-> stac_fastapi
-  data_workflow -. Generate entries for .-> pygeoapi
+  metadata --> |Harvest|data_workflow
+  rimrep_admin --> |Curate dataset issues\n& collection.jsonnet|catalog
+  data_workflow --> |Updates| pygeoapi
+  data_workflow --> |Updates| stac_fastapi
+
 ```
 ### Argo Workflows
 
