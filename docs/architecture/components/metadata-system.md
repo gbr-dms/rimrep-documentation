@@ -1,5 +1,7 @@
 # Metadata system
 
+The metadata system serves as a comprehensive framework for organizing and managing datasets, facilitating efficient data discovery. The system follows the [STAC (SpatioTemporal Asset Catalogs) specification](https://stacspec.org/en) which provides a standardized way to expose collections of spatial temporal data. The metadata system comprises three core components: the API back-end [`stac-fastapi`](https://stac.reefdata.io/), the API front-end [`stac-browser`](https://stac.reefdata.io/browser), and the metadata catalog point-of-truth repository [`rimrep-catalog`](https://github.com/aodn/rimrep-catalog). The API back-end `stac-fastapi` enables dataset discovery via a REST API, while the front-end, `stac-browser`, offers a web-based interface for users to search datasets using various filters such as dataset name, data provider, keywords, date range, and spatial extents. The metadata catalog repository, `rimrep-catalog`, serves as a version-controlled repository to store all the metadata catalog files, including `frictionless` metadata files, accessed by automated pipelines to update the data and metadata in the DMS. Additionally, a [metadata entry tool](https://met.reefdata.io/) is provided as a temporary solution to create metadata records for datasets lacking existing metadata records.
+
 ## Summary
 
 - Authentication: [`Keycloak`](https://www.keycloak.org/) (See [auth architecture](auth.md))
