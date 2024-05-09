@@ -84,7 +84,7 @@ flowchart TB
 
 
 flowchart TB
-classDef red fill:#ffcccc,stroke:#ff0000;
+classDef red fill:#ffddaa,stroke:#ff6600;
 
     source_data[(Source data)]:::red
     coordinates{{Coordinates}}:::red
@@ -129,6 +129,7 @@ classDef red fill:#ffcccc,stroke:#ff0000;
     stac[(STAC)]:::red
     pygeoapi[(pygeoapi)]:::red
 
+    source_data -.-> |human curated| coordinates
     source_data --> convert
     convert --> |converted data| generate_datadriven & upload_data
     convert ~~~ check_extents
@@ -154,7 +155,7 @@ classDef red fill:#ffcccc,stroke:#ff0000;
     generate_datadriven_parquet & generate_datadriven_zarr --> generate_frictionless
     generate_frictionless --> schema_changed
     schema_changed --> |yes| error
-    schema_changed --> |no| upload_data & generate_pygeo & upload_frictionless
+    schema_changed --> |no| generate_pygeo & upload_frictionless & upload_data
     generate_frictionless --> |"datapackage.json\n\n(table/grid)schema.json"|upload_frictionless
     upload_data --> s3
     upload_frictionless --> s3
