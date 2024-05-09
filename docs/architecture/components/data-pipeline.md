@@ -82,10 +82,18 @@ flowchart TB
 ### Flow chart of pipeline steps
 ```mermaid
 
-flowchart TB
 
+flowchart TB
+classDef red fill:#ffcccc,stroke:#ff0000;
+
+    source_data[(Source data)]:::red
+    coordinates{{Coordinates}}:::red
+    
+    convert["Convert to parquet/zarr\n(dataset-specific)"]
     check_extents[check-extents]
-    harvest["harvest-metadata-by-dataset-id\n(with/without extents)"]
+    has_extents{Can we get spatial/temporal\n extents from the data?}
+    harvest_with["harvest-metadata-by-dataset-id\n(with extents)"]
+    harvest_without["harvest-metadata-by-dataset-id\n(without extents)"]
     has_updates{has new metadata?}
     update_ds[update-dataset-issue]
     generate_datapkg[generate-datapackage-from-dataset-issue]
@@ -97,6 +105,8 @@ flowchart TB
     generate_datadriven_parquet[generate-datadriven-metadata-parquet]
     generate_datadriven_zarr[generate-datadriven-metadata-zarr]
     generate_frictionless[generate-frictionless-metadata]
+    schema_changed{data schema changed?}
+    error((Error.\nData engineer manual check)):::red
     create_pr[create-pr-in-catalog-repo]
     get_catalog[get-catalog-files]
     upload_data[upload-arco-data-to-s3]
@@ -115,9 +125,19 @@ flowchart TB
     validate_pygeo[validate-pygeoapi-entry]
     ingest_pygeo[ingest-pygeoapi-entry]
 
+    s3[(AWS S3)]:::red
+    stac[(STAC)]:::red
+    pygeoapi[(pygeoapi)]:::red
 
-    check_extents --> harvest
-    harvest --> has_updates
+    source_data --> convert
+    convert --> |converted data| generate_datadriven & upload_data
+    convert ~~~ check_extents
+    coordinates --> generate_datadriven & check_extents
+    check_extents --> has_extents
+    has_extents --> |yes| harvest_without
+    has_extents --> |no| harvest_with
+    harvest_without --> has_updates
+    harvest_with --> has_updates
     has_updates --> |yes| update_ds
     has_updates --> |no| generate_datapkg
     update_ds --> generate_datapkg
@@ -132,9 +152,15 @@ flowchart TB
     file_format --> |parquet|generate_datadriven_parquet
     file_format --> |zarr|generate_datadriven_zarr
     generate_datadriven_parquet & generate_datadriven_zarr --> generate_frictionless
-    generate_frictionless --> upload_data & upload_frictionless & generate_pygeo
+    generate_frictionless --> schema_changed
+    schema_changed --> |yes| error
+    schema_changed --> |no| upload_data & generate_pygeo & upload_frictionless
+    generate_frictionless --> |"datapackage.json\n\n(table/grid)schema.json"|upload_frictionless
+    upload_data --> s3
+    upload_frictionless --> s3
     generate_pygeo --> validate_pygeo
     validate_pygeo --> ingest_pygeo
+    ingest_pygeo --> pygeoapi
     generate_frictionless & get_catalog --> generate_item
     generate_item --> validate_item
     validate_item --> check_collection
@@ -142,10 +168,11 @@ flowchart TB
     collection_exists --> |no| create_collection
     create_collection --> ingest_initial_collection
     collection_exists --> |yes| ingest_item
-    ingest_initial_collection --> ingest_item
-    ingest_item --> generate_updated_collection
+    ingest_initial_collection --> ingest_item & stac
+    ingest_item --> generate_updated_collection & stac
     generate_updated_collection --> validate_updated_collection
     validate_updated_collection --> ingest_updated_collection
+    ingest_updated_collection --> stac
 
 ```
 
