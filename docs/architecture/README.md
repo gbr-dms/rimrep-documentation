@@ -7,6 +7,7 @@
 - **Data API**: [pygeoapi](https://github.com/geopython/pygeoapi/) implementation of [OGCAPIFeatures](https://ogcapi.ogc.org/features/) and [OGCAPICoverages](https://ogcapi.ogc.org/coverages/)
 - **Data storage**: [zarr](https://zarr.readthedocs.io/en/stable/) and ([geo](https://geoparquet.org/))[parquet](https://parquet.apache.org/)
   - These analysis-ready cloud-optimised (ARCO) formats provide a method of direct data access
+- **Metadata storage**: [Frictionless](https://specs.frictionlessdata.io/)
 - **Data pipeline**: [Argo workflows](https://argoproj.github.io/workflows/)
 - **Deployment**: AWS using[Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/) and [Flux](https://fluxcd.io/)
 
@@ -66,7 +67,7 @@ flowchart TB
     data_api(<strong>Data API</strong>\n pyGeoAPI):::green
     metadata_api(<strong>Metadata</strong> \n Browser/API/RDS):::green
     data_storage[(<strong>Data Storage AWS S3</strong>\n Zarr/parquet \n datapackage.json \nPublic/Private DS)]:::green
-    catalog[(<strong>Catalog</strong> \n datapackage.json \n tableschema.json\ncollection.jsonnet)]:::green
+    catalog[("<strong>Catalog</strong> \n datapackage.json \n (table/grid)schema.json\ncollection.jsonnet")]:::green
     OAuth("<strong>OAuth</strong> \n Keycloak with AAF \n krakenD API Gateway"):::blue
     end
 
