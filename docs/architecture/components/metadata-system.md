@@ -14,7 +14,7 @@
   - Version controlled - GitHub repository
   - Stores the templates, specification documents and human-curated metadata files for the automated metadata pipelines
     - Manually curated metadata files for STAC Collections (collection.jsonnet)
-    - Manually curated metadata files for STAC Items using [`frictionless`](https://specs.frictionlessdata.io/) framework (datapackage.json, tableschema.json)
+    - Manually curated metadata files for STAC Items using [`frictionless`](https://specs.frictionlessdata.io/) framework (datapackage.json, tableschema.json, gridschema.json)
     - Jsonnet library files to help with metadata manipulation in the automated metadata pipelines
     - Documentation for the STAC specification and guidelines we use
     - Files containing lists of datasets for metadata harvester to harvest
@@ -160,11 +160,11 @@ flowchart TB
   group_external_data -->|Ingest| data_workflow
   rimrep_admin -->|"Curate initial metadata files"| catalog
   catalog --> |Jsonnet files| metadata_workflow
-  catalog --> |"Initial datapackage.json &<br> tableschema.json"| data_workflow
+  catalog --> |"Initial datapackage.json &<br> (table/grid)schema.json"| data_workflow
   metadata_workflow -->  |"Generate STAC Collections & Items<br>Publish to"|stac_fastapi_internal
   stac_fastapi_internal --> |Writes to| stac_db
   data_workflow --> |"Zarr/Parquet data"|s3
-  data_workflow --> |"Complete datapackage.json &<br>tableschema.json with<br>data-driven metadata"|metadata_workflow & s3
+  data_workflow --> |"Complete datapackage.json &<br>(table/grid)schema.json with<br>data-driven metadata"|metadata_workflow & s3
 ```
 
 ### Metadata pipeline
