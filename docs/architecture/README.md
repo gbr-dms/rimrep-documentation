@@ -7,6 +7,7 @@
 - **Data API**: [pygeoapi](https://github.com/geopython/pygeoapi/) implementation of [OGCAPIFeatures](https://ogcapi.ogc.org/features/) and [OGCAPICoverages](https://ogcapi.ogc.org/coverages/)
 - **Data storage**: [zarr](https://zarr.readthedocs.io/en/stable/) and ([geo](https://geoparquet.org/))[parquet](https://parquet.apache.org/)
   - These analysis-ready cloud-optimised (ARCO) formats provide a method of direct data access
+- **Metadata storage**: [Frictionless](https://specs.frictionlessdata.io/)
 - **Data pipeline**: [Argo workflows](https://argoproj.github.io/workflows/)
 - **Deployment**: AWS using[Terraform](https://www.terraform.io/), [Kubernetes](https://kubernetes.io/) and [Flux](https://fluxcd.io/)
 
