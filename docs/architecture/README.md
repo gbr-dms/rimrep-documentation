@@ -67,7 +67,7 @@ flowchart TB
     data_api(<strong>Data API</strong>\n pyGeoAPI):::green
     metadata_api(<strong>Metadata</strong> \n Browser/API/RDS):::green
     data_storage[(<strong>Data Storage AWS S3</strong>\n Zarr/parquet \n datapackage.json \nPublic/Private DS)]:::green
-    catalog[(<strong>Catalog</strong> \n datapackage.json \n tableschema.json\ncollection.jsonnet)]:::green
+    catalog[("<strong>Catalog</strong> \n datapackage.json \n (table/grid)schema.json\ncollection.jsonnet")]:::green
     OAuth("<strong>OAuth</strong> \n Keycloak with AAF \n krakenD API Gateway"):::blue
     end
 
