@@ -100,9 +100,9 @@ This setup ensures a scalable and manageable infrastructure for deploying and ru
 
 The Terraform modules used for this infrastructure are stored in the `gbr-dms-terraform-modules` repository. Updates to this repository are merged into the main branch and tagged with a new version, e.g., `v0.1.0`, `v0.2.0`. In the `rimrep-terraform` repository, module sources are declared like so:
 
-\```hcl
+```hcl
 source  = "git@github.com:aodn/gbr-dms-terraform-modules.git//modules/eks?ref=0.1.0"
-\```
+```
 
 ### Environments
 
@@ -118,6 +118,46 @@ The `rimrep-terraform` repository contains two environments: one for `developmen
 6. **Apply to Production**: Run `terraform apply` in the production environment to deploy the changes.
 
 This process ensures that all updates are thoroughly tested before being deployed to the production environment, maintaining stability and reliability.
+
+## KrakenD API Gateway
+
+The KrakenD API Gateway is deployed within the EKS cluster to manage and route API requests. It integrates with various backend services to provide a unified API endpoint for external users.
+
+### Components
+
+- **KrakenD S3 Plugin**: Integrates with AWS S3 for efficient data access.
+- **KrakenD API Gateway**: Routes API requests to appropriate backend services.
+
+### Workflow
+
+1. **KrakenD API Gateway** receives API requests from external users.
+2. Requests are routed to backend services such as **PygeoAPI**, **stac-fastapi**, and **Dashboard**.
+3. **KrakenD S3 Plugin** provides efficient data access from AWS S3.
+
+## NGINX Ingress Controller
+
+The NGINX Ingress Controller manages incoming HTTP and HTTPS traffic, providing load balancing, SSL termination, and name-based virtual hosting for the services within the EKS cluster.
+
+### Workflow
+
+1. **NGINX Ingress Controller** receives incoming traffic through the AWS NLB.
+2. Traffic is routed to the appropriate service, such as **Keycloak** or **Metcalf**.
+3. The Ingress Controller ensures secure and efficient traffic management.
+
+## AAF IDP Integration
+
+Keycloak is integrated with the AAF IDP (Identity Provider) to provide federated authentication and authorization for external users.
+
+### Components
+
+- **AAF IDP Realm**: Manages user identities and authentication.
+- **Keycloak**: Provides federated identity management and single sign-on (SSO) capabilities.
+
+### Workflow
+
+1. **External Users** authenticate via the **AAF IDP Realm**.
+2. **Keycloak** processes the authentication and provides SSO capabilities for accessing various services within the EKS cluster.
+
 
 ## Cluster overview
 
