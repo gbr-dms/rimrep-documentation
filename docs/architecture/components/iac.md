@@ -102,7 +102,7 @@ The Terraform modules used for this infrastructure are stored in the `gbr-dms-te
 
 ```hcl
 source  = "git@github.com:aodn/gbr-dms-terraform-modules.git//modules/eks?ref=0.1.0"
-\```
+```
 
 ### Environments
 
