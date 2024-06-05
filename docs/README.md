@@ -3,13 +3,13 @@
 ## System
 
 ### [Architecture](./architecture/README.md)
-- [Infrastructure as Code (IaC)](./components/iac.md)
-- [Observability](./components/observability.md)
-- [Metadata system](./components/metadata-system.md)
-- [Data system](./components/data-system.md)
-- [Data pipeline](./components/data-pipeline.md)
-- [Auth](./components/auth.md)
-- [Admin dashboard](./components/admin-dashboard.md)
+- [Infrastructure as Code (IaC)](./architecture/components/iac.md)
+- [Observability](./architecture/components/observability.md)
+- [Metadata system](./architecture/components/metadata-system.md)
+- [Data system](./architecture/components/data-system.md)
+- [Data pipeline](./architecture/components/data-pipeline.md)
+- [Auth](./architecture/components/auth.md)
+- [Admin dashboard](./architecture/components/admin-dashboard.md)
 
 ## [Guidelines](./guidelines/README.md)
 - [Client credential flow or M2M flow](client-credential-flow.md)
