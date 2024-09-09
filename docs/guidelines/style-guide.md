@@ -6,11 +6,11 @@ This is the start of the GBR DMS visual style guide. We want to have a consisten
 
 ### Temporary icon
 
-<img src="https://rimrep-files-public.s3.ap-southeast-2.amazonaws.com/images/logo.png" width="128px">
+<img src="images/logo.png" width="128px">
 
 ### Background
 
-<img src="https://rimrep-files-public.s3.ap-southeast-2.amazonaws.com/images/background.jpg" width="512px">
+<img src="images/background.jpg" width="512px">
 
 ## Colours
 

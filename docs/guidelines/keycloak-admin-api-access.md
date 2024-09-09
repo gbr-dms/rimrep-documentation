@@ -25,7 +25,7 @@ Admin Credentials: The admin credentials required for Step 1 can be fetched from
 Token Expiry: The access token has a default expiry of 10 minutes. If necessary, you can adjust this setting in the Keycloak admin realm settings.
 Please ensure proper authorization and security measures are in place when accessing sensitive data and APIs.
 
-![image](https://github.com/aodn/rimrep-dms/assets/126625288/99e33976-6fc4-4af9-8a7f-5cb9d970469d)
+![image](./images/keycloak-admin-api-access-additional-note.png)
 
 ---
 ### Step 2: Access Admin API

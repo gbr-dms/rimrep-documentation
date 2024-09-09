@@ -12,9 +12,9 @@ It demonstrates how to integrate Keycloak as an Identity Provider (IDP) and mana
 
 Create a New client in AAF for the federation as below
 
-![image](https://github.com/aodn/rimrep-dms/assets/126625288/9b64e6d6-bbe7-4a12-b121-6238d1b746ad)
+![image](./images/user-management-1.png)
 
-![image](https://github.com/aodn/rimrep-dms/assets/126625288/ee4bc8fb-691f-4aec-bc61-01846e110826)
+![image](./images/user-management-2.png)
 
 To register a new OIDC RP please visit:
 
