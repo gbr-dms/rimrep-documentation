@@ -70,6 +70,18 @@ We are using [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi) (a for
 
 This will publish [OGC API Features](https://ogcapi.ogc.org/features/) (from geo/parquet) and [OGC API Coverages](https://ogcapi.ogc.org/coverages/) (from zarr).
 
+## Pygeoapi repository
+
+Our version of `pygeoapi` is a fork of the main repository. We have made some changes to the codebase to support our requirements. This implies that we need to maintain our fork and keep it up to date with the main repository, and build our own images of pygeoapi to run. Pulling updates from the main repository should be done regularly to keep our fork up to date, but it is also a time-consuming process because we need to resolve conflicts and test the changes.
+
+To mitigate this issue we have contributed a set of our changes back to the main repository, including the [parquet provider](https://github.com/geopython/pygeoapi/pull/1722) and [improvements to the zarr provider](https://github.com/geopython/pygeoapi/pull/1800). The last big change that we need added to the main repository is allowing different output formats for zarr data (we need to be able to serve the data as NetCDF). A [Pull Request](https://github.com/geopython/pygeoapi/pull/1830) has been created for this change, but it is still in review. Once this change is merged, we should be able to use the main repository without any modifications. When this happens, the following changes will need to be done to simplify our architecture:
+
+- Use the `geopython/pygeoapi` docker image instead of our self-built image
+- Test the new image to ensure that it works as expected
+- Remove our forked repository
+
+The `latest` version of the image could be used to avoid the need to update the image manually, but this could also introduce breaking changes as this tag tracks the development version of pygeoapi. To avoid this, we should use a specific released version of the image and update it manually whenever a new version is released (for example, at the moment of writing this text the [latest released version](https://hub.docker.com/r/geopython/pygeoapi/tags) is [`geopython/pygeoapi:0.18.0`](https://hub.docker.com/layers/geopython/pygeoapi/0.18.0/images/sha256-c329c4332bce056ffb850210a3ca642fabc1362efc6282f8ec1ceeeceb332994?context=explore)). This will allow us to test the changes before deploying them to the production environment. The manual update process will however be considerably easier, as it will only require changing the version of the image in the deployment configuration.
+
 ## Auth
 
 See [Auth architecture](auth.md) documentation for more detailed information.
