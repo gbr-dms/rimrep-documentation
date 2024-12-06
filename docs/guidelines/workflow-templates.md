@@ -103,6 +103,8 @@ Templates to process Parquet files. Several of these templates accept multiple o
 - `csv-to-geoparquet`: converts a csv file with columns for latitude and longitude to geoparquet.
 - `json-to-parquet`: converts a json file to parquet.
 - `json-to-geoparquet`: converts a json file with columns for latitude and longitude to geoparquet.
+- `rdata-to-parquet`: converts an RData file to parquet. Assumes the file contains only one table.
+- `rdata-to-geoparquet`: converts an RData file with columns for latitude and longitude to geoparquet.Assumes the file contains only one table.
 - `add-geoms`: joins a parquet file with a geoparquet file on a common column adding the geometries from the second file to the first.
 - `add-column-metadata`: adds metadata to the columns of a parquet file; input taken as a second parquet file with column names as the index and metadata fields as other columns.
 - `unzip-source-file`: unzips an artifact and returns a new artifact with the unzipped files. (not really restricted to parquet)
