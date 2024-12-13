@@ -25,4 +25,5 @@
 - [RDS backup and restore](./guidelines/rds-data-backup-restore.md)  
 - [Style Guide](./guidelines/style-guide.md)
 - [How to create client in AAF SSO for federated user and role assignment in Keycloak](./guidelines/user-management.md)
+- [How to write a new data ingestion workflow](./guidelines/workflows.md)
 - [Templates to use to write new ingestion workflows](./guidelines/workflow-templates.md)
