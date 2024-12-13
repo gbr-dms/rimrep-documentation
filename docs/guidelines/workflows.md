@@ -47,6 +47,10 @@ spec:
     - <other templates called by the main template can be added if needed>
 ```
 
+`steps` is a linear list of steps that will be executed, for more complex flows the [`dag`](https://argo-workflows.readthedocs.io/en/latest/walk-through/dag/) construct can be used instead.
+
+For a reference of templates that can be used as steps, see the [workflow templates](./workflow-templates.md) document.
+
 ## Cron workflows
 
 Cron workflows (running automatically at fixed times) follow the same structure, with a slightly different header and the addition of an exit handler to notify slack if the workflow fails:
