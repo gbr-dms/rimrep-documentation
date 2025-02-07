@@ -193,4 +193,22 @@ The [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline) conta
 
 ## Auth
 
-Argo Workflows is for internal use only. Authentication is handled through AODN's Okta instance.
+Argo Workflows is for internal use only. Data engineers and developers can access through the Argo Workflows UI at https://argo.development.reefdata.io (development) or https://argo.reefdata.io (production).
+
+Authentication is performed through a service account token that can be retrieved from the kubernetes clusters with the following command:
+```bash
+ARGO_TOKEN="Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)"
+```
+or, to copy it directly to the clipboard:
+```bash
+# For Linux
+echo "Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)" | xclip -selection c
+# For Mac
+echo "Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)" | pbcopy
+```
+
+This can then be pasted in the **client authentication** field of the Argo Workflows UI to log in.
+
+For more information on the access token including how to use it from the CLI and how to revoke a compromised token see [the Argo Workflows documentation](https://argo-workflows.readthedocs.io/en/latest/access-token).
+
+Currently only one service account with full access to Argo Workflows exists, but it is possible to create more accounts and restrict access to certain resources or actions for each of them.
