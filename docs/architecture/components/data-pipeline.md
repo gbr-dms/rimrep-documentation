@@ -202,12 +202,14 @@ ARGO_TOKEN="Bearer $(kubectl get secret --namespace=argo argo-workflows-server.s
 or, to copy it directly to the clipboard:
 ```bash
 # For Linux
-echo "Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)" | xclip -selection c
+echo -n "Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)" | xclip -selection c
 # For Mac
 echo "Bearer $(kubectl get secret --namespace=argo argo-workflows-server.service-account-token -o=jsonpath='{.data.token}'| base64 --decode)" | pbcopy
 ```
 
 This can then be pasted in the **client authentication** field of the Argo Workflows UI to log in.
+
+It can be convenient to store the tokens in a secure location (such as a password manager), rather than having to run kubernetes commands each time.
 
 For more information on the access token including how to use it from the CLI and how to revoke a compromised token see [the Argo Workflows documentation](https://argo-workflows.readthedocs.io/en/latest/access-token).
 
