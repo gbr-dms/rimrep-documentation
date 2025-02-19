@@ -6,9 +6,9 @@
 This document presents the Architecture for Authentication and Authorization flow for the following services:
 
 
-- [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi) Data API
-- [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi) Metadata API
-- [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser) Metadata API Web Client
+- [`rimrep-pygeoapi`](https://github.com/gbr-dms/rimrep-pygeoapi) Data API
+- [`rimrep-stac-fastapi`](https://github.com/gbr-dms/rimrep-stac-fastapi) Metadata API
+- [`rimrep-stac-browser`](https://github.com/gbr-dms/rimrep-stac-browser) Metadata API Web Client
 - S3-public buckets
 - S3-private buckets
 
@@ -278,7 +278,7 @@ Furthermore, KrakenD simplifies authentication and authorization implementation 
 
 ### Krakend S3 Plugin
 
-- [`rimrep-krakend-plugin`](https://github.com/aodn/rimrep-krakend-plugin)  The KrakenD S3 Plug-in, written in GO, is seamlessly integrated into the base image of KrakenD. This powerful plug-in utilises AWS client credentials to directly interact with S3 buckets using the AWS S3 API, eliminating the need for any S3 proxy.
+- [`rimrep-krakend-plugin`](https://github.com/gbr-dms/rimrep-krakend-plugin)  The KrakenD S3 Plug-in, written in GO, is seamlessly integrated into the base image of KrakenD. This powerful plug-in utilises AWS client credentials to directly interact with S3 buckets using the AWS S3 API, eliminating the need for any S3 proxy.
 
 By combining the KrakenD S3 Plug-in with the KrakenD API Gateway, you can efficiently serve S3 bucket data with precise and fine-grained authorisation at the dataset level. This integration allows for secure and controlled access to specific datasets, ensuring enhanced security and data management for your S3 resources.
 

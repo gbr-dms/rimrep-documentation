@@ -13,7 +13,7 @@ Three types of metadata
 
 ## Standard lists/vocabs
 
-As per [REQUIREMENTS.md#metadata-api](https://github.com/aodn/rimrep-dms/blob/main/docs/REQUIREMENTS.md#metadata-api), we want to have standard vocabs/enumerated values for data variables, keywords, etc.
+As per [REQUIREMENTS.md#metadata-api](https://github.com/gbr-dms/rimrep-dms/blob/main/docs/REQUIREMENTS.md#metadata-api), we want to have standard vocabs/enumerated values for data variables, keywords, etc.
 
 - The vast majority of - if not all - datasets will require us to manually match data variables with our standard lists/vocabs.
 - Some data providers may be happy to engage with us to either provide metadata compliant with our standard/lists - or at very least verify the metadata manually created by us.
@@ -39,7 +39,7 @@ If there are metadata records with particularly poor access (eg externally hoste
 
 ## Metadata record is to be created through MET
 
-Following https://github.com/aodn/rimrep-dms/blob/main/docs/REQUIREMENTS.md#metadata-entry-tool-met, the MET will be used by data providers to create a new metadata record **only when all of the following are true**:
+Following https://github.com/gbr-dms/rimrep-dms/blob/main/docs/REQUIREMENTS.md#metadata-entry-tool-met, the MET will be used by data providers to create a new metadata record **only when all of the following are true**:
 
 - A record does not exist in an external metadata management systems
 - The data provider does not have a metadata management system

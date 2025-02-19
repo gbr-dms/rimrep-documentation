@@ -26,7 +26,7 @@ Example krakend json file skeleton is provided below.
 We will the attributes definiton here,
 - `version` is the version of Krakend json
 - `timeout` is the timeout for all request via Krakend
-- `plugin` to load custom plugin. Here it is used for loading aws plugin which comes with Krakend image from [rimrep-krakend-plugin](https://github.com/aodn/rimrep-krakend-plugin) to access S3 buckets. DO NOT REMOVE IT OR ELSE BUCKET ACCESS WILL FAIL.
+- `plugin` to load custom plugin. Here it is used for loading aws plugin which comes with Krakend image from [rimrep-krakend-plugin](https://github.com/gbr-dms/rimrep-krakend-plugin) to access S3 buckets. DO NOT REMOVE IT OR ELSE BUCKET ACCESS WILL FAIL.
 - `extra_config` to capture the error from routes
 - `endpoints` holds all URL rules and will see it in detail in the next section.
 

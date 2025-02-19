@@ -4,8 +4,8 @@
 Clients are created and managed via terraform code. For creating new clients update **keycloak_clients** in `rimrep-terraform/{environment}/keycloak/terraform.auto.tfvars` file of respective environment and apply the changes. Once after applying the changes, **CLIENT_ID** and **CLIENT_SECRET** of the clients will be stored in AWS secrets manager with the name `keycloak-client-credentials-{CLIENT_ID}`. You can use it for M2M flow.
 
 Note: `rimrep` client id is already created in development and staging-v2.
-- In development, terraform code for managing client id is in [**keycloak_clients** var](https://github.com/aodn/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars)
-- In staging-v2, terraform code for managing client id is [**keycloak_clients** var](https://github.com/aodn/rimrep-terraform/blob/main/staging-new/keycloak/terraform.auto.tfvars)
+- In development, terraform code for managing client id is in [**keycloak_clients** var](https://github.com/gbr-dms/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars)
+- In staging-v2, terraform code for managing client id is [**keycloak_clients** var](https://github.com/gbr-dms/rimrep-terraform/blob/main/staging-new/keycloak/terraform.auto.tfvars)
 
 ## JWT Token/Authorization Bearer token Generation
 

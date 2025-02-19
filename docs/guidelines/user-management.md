@@ -40,11 +40,11 @@ Note: Here is the AAF documentation link for new service creation, https://suppo
 Note: Here the client ID and Client secret need to be created in the AAF Portal.
 
 ### Role Assignment in Keycloak
-AAF users will be given only default role which does not have access to protected datasets. In order to access protected datasets, respective roles needs to be assigned to users and it can be accomplished through the Terraform code available at https://github.com/aodn/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars.
+AAF users will be given only default role which does not have access to protected datasets. In order to access protected datasets, respective roles needs to be assigned to users and it can be accomplished through the Terraform code available at https://github.com/gbr-dms/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars.
 
 ## Local users
 
-- Local users are created using Terraform modules, please refer [https://github.com/aodn/rimrep-terraform/tree/main/development/keycloak](https://github.com/aodn/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars).
+- Local users are created using Terraform modules, please refer [https://github.com/gbr-dms/rimrep-terraform/tree/main/development/keycloak](https://github.com/gbr-dms/rimrep-terraform/blob/main/development/keycloak/terraform.auto.tfvars).
 - Ensure the email id is used as username it is to avoid sharing usernames
 - Once the users are created, notify them
 - When logging in for the first time, users have to use "Forgot Password" option.

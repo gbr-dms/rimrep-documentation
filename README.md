@@ -26,9 +26,9 @@ to log in. If not, you can write to info-dms at utas dot edu dot au and we will 
 
 ## Public Repositories
 
-- [rimrep-examples](https://github.com/aodn/rimrep-examples) GBR DMS examples and documentation
-- [rimrep-training](https://github.com/aodn/rimrep-training) Specific examples to be used for training activities
-- [rimrep-documentation](https://github.com/aodn/rimrep-documentation) This repository
+- [rimrep-examples](https://github.com/gbr-dms/rimrep-examples) GBR DMS examples and documentation
+- [rimrep-training](https://github.com/gbr-dms/rimrep-training) Specific examples to be used for training activities
+- [rimrep-documentation](https://github.com/gbr-dms/rimrep-documentation) This repository
 
 
 

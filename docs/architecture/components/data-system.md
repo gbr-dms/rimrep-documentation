@@ -5,7 +5,7 @@ See [Data API requirements](../../requirements.md#data-api)
 ## Summary
 
 - Authentication [`Keycloak`](https://www.keycloak.org/) (See [auth architecture](auth.md))
-- Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi)
+- Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/gbr-dms/rimrep-pygeoapi)
 - Data API authorization: [`KrakenD`](https://www.krakend.io/)
 - Direct access: AWS S3 or [`KrakenD`](https://www.krakend.io/)
 
@@ -66,7 +66,7 @@ We support two data formats:
 
 ### Data API
 
-We are using [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi) (a fork of [`pygeoapi`](https://github.com/geopython/pygeoapi/)) to publish OGC APIs for data access.
+We are using [`rimrep-pygeoapi`](https://github.com/gbr-dms/rimrep-pygeoapi) (a fork of [`pygeoapi`](https://github.com/geopython/pygeoapi/)) to publish OGC APIs for data access.
 
 This will publish [OGC API Features](https://ogcapi.ogc.org/features/) (from geo/parquet) and [OGC API Coverages](https://ogcapi.ogc.org/coverages/) (from zarr).
 
