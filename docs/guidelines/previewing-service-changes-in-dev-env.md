@@ -14,8 +14,8 @@ Push your tag:
 git push --tags
 ```
 ​
-Wait for you build to finish https://github.com/aodn/rimrep-pygeoapi/actions/workflows/main.yml
-Manually run the deployment for the new build https://github.com/aodn/rimrep-pygeoapi/actions/workflows/containers.yml
+Wait for you build to finish https://github.com/gbr-dms/rimrep-pygeoapi/actions/workflows/main.yml
+Manually run the deployment for the new build https://github.com/gbr-dms/rimrep-pygeoapi/actions/workflows/containers.yml
 
 Get the new container image tag
 

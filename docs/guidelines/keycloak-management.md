@@ -23,9 +23,9 @@ Code for backgroun image in Keycloak login page is managed in rimrep-flux repo. 
 -  Background image and header font styles are updated in `login.css`. Lines updated are marked with a comment `/* Updated */` and `/* Added */` for future reference.
 -  Once after added the theme, realm settings to be updated to use the new custom theme and can be done using `rimrep-terraform`
 - PR reference,
-  - https://github.com/aodn/rimrep-flux/pull/334
-  - https://github.com/aodn/rimrep-flux/pull/337
-  - https://github.com/aodn/rimrep-terraform/pull/287
+  - https://github.com/gbr-dms/rimrep-flux/pull/334
+  - https://github.com/gbr-dms/rimrep-flux/pull/337
+  - https://github.com/gbr-dms/rimrep-terraform/pull/287
 
 **Important Note:** 
 During Keycloak upgrade, if background image failed to load it could be because of `login.css` from base theme is updated in te newer version causing the issue. In such case, follow the steps to update `login.css`

@@ -14,32 +14,32 @@
 ## Components
 
 - **[Infrastructure as Code (IaC)](./components/iac.md)**
-  - External services + Cloud infrastructure + Kubernetes bootstrap: [`rimrep-terraform`](https://github.com/aodn/rimrep-terraform)
-  - GitOps: [`rimrep-flux`](https://github.com/aodn/rimrep-flux)
+  - External services + Cloud infrastructure + Kubernetes bootstrap: [`rimrep-terraform`](https://github.com/gbr-dms/rimrep-terraform)
+  - GitOps: [`rimrep-flux`](https://github.com/gbr-dms/rimrep-flux)
 - **[Observability](./components/observability.md)**
   - New Relic
   - Weave GitOps (front end for Flux)
 - **[Metadata system](./components/metadata-system.md)**
-  - Metadata entry tool: [`rimrep-metcalf`](https://github.com/aodn/rimrep-metcalf)
-  - Metadata API backend: [`rimrep-stac-fastapi`](https://github.com/aodn/rimrep-stac-fastapi)
+  - Metadata entry tool: [`rimrep-metcalf`](https://github.com/gbr-dms/rimrep-metcalf)
+  - Metadata API backend: [`rimrep-stac-fastapi`](https://github.com/gbr-dms/rimrep-stac-fastapi)
     - Storage: AWS RDS PostgreSQL
-  - Metadata API frontend: [`rimrep-stac-browser`](https://github.com/aodn/rimrep-stac-browser)
-  - Metadata catalog point-of-truth: [`rimrep-catalog`](https://github.com/aodn/rimrep-catalog)
+  - Metadata API frontend: [`rimrep-stac-browser`](https://github.com/gbr-dms/rimrep-stac-browser)
+  - Metadata catalog point-of-truth: [`rimrep-catalog`](https://github.com/gbr-dms/rimrep-catalog)
 - **[Data system](./components/data-system.md)**
   - Data storage: AWS S3
-  - Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/aodn/rimrep-pygeoapi)
+  - Data API backend (and simple frontend): [`rimrep-pygeoapi`](https://github.com/gbr-dms/rimrep-pygeoapi)
   - Data API auth: [`KrakenD API Gateway`](https://www.krakend.io/)
   - Direct access: AWS S3 or [`KrakenD API Gateway`](https://www.krakend.io/)
 - **[Data pipeline](./components/data-pipeline.md)**
-  - Argo Workflows ([`rimrep-flux`](https://github.com/aodn/rimrep-flux))
-  - Python modules: [`rimrep-data-pipeline`](https://github.com/aodn/rimrep-data-pipeline)
+  - Argo Workflows ([`rimrep-flux`](https://github.com/gbr-dms/rimrep-flux))
+  - Python modules: [`rimrep-data-pipeline`](https://github.com/gbr-dms/rimrep-data-pipeline)
 - **[Auth](./components/auth.md)**
   - Okta for internal services
   - [Keycloak](https://www.keycloak.org) for external services
   - Authentication in front of services: [`oauth2proxy`](https://oauth2-proxy.github.io/oauth2-proxy/)
   - Authorization in front of data: [`KrakenD API Gateway`](https://www.krakend.io/)
 - **[Admin dashboard](./components/admin-dashboard.md)**
-  - Simple front-end: [`rimrep-dashboard`](https://github.com/aodn/rimrep-dashboard)
+  - Simple front-end: [`rimrep-dashboard`](https://github.com/gbr-dms/rimrep-dashboard)
   - Allows users copy their JWT identity token to clipboard.
 
 ## High level architecture

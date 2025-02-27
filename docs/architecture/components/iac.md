@@ -4,8 +4,8 @@
 
 The infrastructure setup leverages Infrastructure as Code (IaC) to deploy and manage AWS Virtual Private Cloud (VPC) with Elastic Kubernetes Service (EKS). The architecture ensures seamless integration of various services and dependencies, allowing for scalable, secure, and efficient management of resources. This documentation provides an in-depth explanation of the components and their interactions as depicted in the architecture diagrams.
 
-- External services + Cloud infrastructure + Kubernetes bootstrap: [`rimrep-terraform`](https://github.com/aodn/rimrep-terraform)
-- GitOps: [`rimrep-flux`](https://github.com/aodn/rimrep-flux)
+- External services + Cloud infrastructure + Kubernetes bootstrap: [`rimrep-terraform`](https://github.com/gbr-dms/rimrep-terraform)
+- GitOps: [`rimrep-flux`](https://github.com/gbr-dms/rimrep-flux)
 
 ## Cluster Overview
 
