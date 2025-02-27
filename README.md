@@ -10,12 +10,12 @@ standards. The system will collect and update data and metadata from data provid
 analysis-ready cloud-optimised (ARCO) formats, and provide the end user with a delivery mechanism through dedicated 
 Application Programming Interface (API) services or direct connection to the cloud storage.
 
-For more details go to the project webpage or contact us at info-dms at utas dot edu dot au.
+For more details go to the project webpage or contact us at rimrep-dms at aims dot gov dot au.
 
 ## Access the DMS catalogue and data services
 
 The DMS catalogue is available at http://stac.reefdata.io/browser. If your organisation is an [AAF partner](https://aaf.edu.au/subscribers/) you can use your email credentials 
-to log in. If not, you can write to info-dms at utas dot edu dot au and we will provide your access credentials.
+to log in. If not, you can write to rimrep-dms at aims dot gov dot au and we will provide your access credentials.
 
 
 ## Docs
@@ -280,7 +280,7 @@ for the dataset of interest, the variable name of interest as arguments and retu
 Additionally, you can provide spatial and temporal boundaries to extract data. We will use the  *NOAA Coral Reef 
 Watch degree heating weeks* dataset as an example, but you can replace the API address with the one for the dataset you want to access.
 
-Note that you will need to head over to our dashboard: <https://dashboard.reefdata.io/> to get a token before you can access the data. When you use the `connect_dms_dataset` function, you will be prompted to enter your token. If you do not have an account, you can contact us at [info-rimrep\@utas.edu.au](mailto:info-rimrep@utas.edu.au).
+Note that you will need to head over to our dashboard: <https://dashboard.reefdata.io/> to get a token before you can access the data. When you use the `connect_dms_dataset` function, you will be prompted to enter your token. If you do not have an account, you can contact us at [rimrep-dms@aims.gov.au](mailto:rimrep-dms@aims.gov.au).
 
 ``` r
 #Loading useful_functions script
